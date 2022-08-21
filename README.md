@@ -30,8 +30,6 @@ NB: Please make sure you do not push your `.env` file to public repositories as 
 
 ### Use PyKuda
 
-It is now time to use PyKuda.
-
 ```python
 from pykuda.pykuda import PyKuda
 
@@ -54,17 +52,17 @@ Using the response above as an example;
 >>> PyKudaResponse(status_code=200, data=[list_of_banks])
 ```
 
-As seen above, the PyKudaResponse returns the status_code and data, the data is an already filtered data of what you should expect as a response.
+As seen above, the PyKudaResponse returns the status_code and data, the data is an already filtered data of which you can access directly by executing `response.data`.
 
 #### Failed request
 
-Incase the request wasn't successful, the PyKudaResponse will be different. The data will be a rRsponse Object which you can check to investigate the cause (Maybe your Token is not correct, or the URL, or something else.). Now, let's say the API Key in the .env file was not a correct one and a request was made, the code below shows the response to expect.
+Incase the request wasn't successful, the PyKudaResponse will be different. The data will be a rRsponse Object which you can check to investigate the cause (Maybe your Token is not correct, or the URL, or something else.). Now, let's say the API Key in the .env file was not a correct one and a request was made, the example below shows the response to expect.
 
 ```shell
 >>> response
 >>> PyKudaResponse(status_code=401, data=<Response [401]>)
 >>>
->>> respose.data.reason # 'Invalid Credentials'
+>>> respose.data.text # 'Invalid Credentials'
 >>> respose.data.reason # 'Unauthorized'
 ```
 
@@ -78,7 +76,7 @@ Please refer to the [Kuda's Documentation](https://kudabank.gitbook.io/kudabank/
 
 ## Contributions & Issues
 
-- Feel free to fork the repository, make changes and make a pull request
+- If you would like to contribute and improve this package, feel free to fork the repository, make changes and open a pull request.
 - If you encounter any issue or bugs, please open an issue.
 
 ## Author
