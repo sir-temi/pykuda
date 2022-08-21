@@ -26,7 +26,7 @@ EMAIL="Your email used to register for the Kuda account"
 MAIN_ACCOUNT_NUMBER="Your main Kuda account number"
 ```
 
-NB: Please make sure you do not push your .env files to public repositories as the details here are confidential.
+NB: Please make sure you do not push your `.env` file to public repositories as the details here are confidential.
 
 ## Use PyKuda
 
@@ -36,6 +36,25 @@ It is now time to use PyKuda.
 from pykuda.pykuda import PyKuda
 
 kuda = PyKuda()
-banks = kuda.get_bank_list()
+response = kuda.get_bank_list()
 
+# response contains PyKudaResponse which has the status code and data.
+```
+
+## Understanding PyKudaResponse
+
+Every request made using Python is filtered and a PyKudaResponse is returned, this response has two attributes, `status_code` and `data`. Using the response above as an example;
+
+```shell
+>>> response
+>>> PyKudaResponse(status_code=200, data=[list_of_banks])
+```
+
+Incase the request wasn't successful, the PyKudaResponse will be different. The data will be a response Object which you can check to investigate the cause (Maybe your Token is not correct, or the URL, or something else.)
+
+```shell
+>>> response
+>>> PyKudaResponse(status_code=401, data=response)
+>>>
+>>> respose.data.json() # This gives you an overview of Kuda's response to your request
 ```
