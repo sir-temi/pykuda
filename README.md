@@ -43,18 +43,39 @@ response = kuda.get_bank_list()
 
 ## Understanding PyKudaResponse
 
-Every request made using Python is filtered and a PyKudaResponse is returned, this response has two attributes, `status_code` and `data`. Using the response above as an example;
+Every request made using Python is filtered and a PyKudaResponse is returned, this response has two attributes, `status_code` and `data`.
+
+### Successful request
+
+Using the response above as an example;
 
 ```shell
 >>> response
 >>> PyKudaResponse(status_code=200, data=[list_of_banks])
 ```
 
-Incase the request wasn't successful, the PyKudaResponse will be different. The data will be a response Object which you can check to investigate the cause (Maybe your Token is not correct, or the URL, or something else.)
+As seen above, the PyKudaResponse returns the status_code and data, the data is an already filtered data of what you should expect as a response.
+
+### Failed request
+
+Incase the request wasn't successful, the PyKudaResponse will be different. The data will be a rRsponse Object which you can check to investigate the cause (Maybe your Token is not correct, or the URL, or something else.). Now, let's say the API Key in the .env file was not a correct one and a request was made, the code below shows the response to expect.
 
 ```shell
 >>> response
->>> PyKudaResponse(status_code=401, data=response)
+>>> PyKudaResponse(status_code=401, data=<Response [401]>)
 >>>
->>> respose.data.json() # This gives you an overview of Kuda's response to your request
+>>> respose.data.reason # 'Invalid Credentials'
+>>> respose.data.reason # 'Unauthorized'
 ```
+
+# What else can PyKuda do?
+
+PyKuda can be used to make other requests also, if you would like to learn more about how to use PyKuda to make other requests, please check the source code. Hopefully, I would be able to improve this documentation to show examples of how it can be used to make other requests. A list of request PyKuda can make are listed below.
+
+`BANK_LIST`, `ADMIN_CREATE_VIRTUAL_ACCOUNT`, `RETRIEVE_VIRTUAL_ACCOUNT_BALANCE`, `ADMIN_RETRIEVE_MAIN_ACCOUNT_BALANCE`, `FUND_VIRTUAL_ACCOUNT`, `WITHDRAW_VIRTUAL_ACCOUNT`, `NAME_ENQUIRY`, `SINGLE_FUND_TRANSFER`, and `VIRTUAL_ACCOUNT_FUND_TRANSFER`.
+
+Please refer to the [Kuda's Documentation](https://kudabank.gitbook.io/kudabank/) to read more about these requests.
+
+# Acknowledgement and Improvements
+
+This project is maintained by myself, just in case you are interested in improving this package, discovered some bugs, or would like to support in any other way, please email me. Thank you.
