@@ -147,6 +147,11 @@ class ServiceType:
     def confirm_transfer_recipient(
         self, beneficiary_account_number, beneficiary_bank_code, tracking_reference=None
     ):
+        """
+        This function is responsible for confirming a recipient details, and if the funds
+        is to be transfered from a virtual account, it returns the tracking reference
+        so it can be easily passed to the send_funds_Out_of_account method.
+        """
         data = json.dumps(
             {
                 "serviceType": "NAME_ENQUIRY",
@@ -244,6 +249,11 @@ class ServiceType:
         sender_name,
         tracking_reference=None,
     ):
+        """
+        This function is responsible for sending funds from either the main account
+        or a virtual account. If a tracking reference is passed into the function,
+        it sends from the virtual account, if not, it sends from the main account.
+        """
         if not tracking_reference:
             response = self.send_funds_from_main_account(
                 os.getenv("MAIN_ACCOUNT_NUMBER"),
