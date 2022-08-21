@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "pykuda"
 version = "0.0.1"
 authors = [
-  { name="TemiTope Kayode", email="engrtopekayode@gmail.com" },
+  { name="TemiTope Kayode", email="sirtemi@proton.me" },
 ]
 description = "A python package that simplifies using the Kuda Bank Api"
 readme = "README.md"
