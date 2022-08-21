@@ -76,6 +76,11 @@ PyKuda can be used to make other requests also, if you would like to learn more 
 
 Please refer to the [Kuda's Documentation](https://kudabank.gitbook.io/kudabank/) to read more about these requests.
 
-## Acknowledgement and Improvements
+## Contributions & Issues
 
-This project is maintained by myself, just in case you are interested in improving this package, discovered some bugs, or would like to support in any other way, please email me. Thank you.
+- Feel free to fork the repository, make changes and make a pull request
+- If you encounter any issue or bugs, please open an issue.
+
+## Author
+
+- [Kayode TemiTope](https://github.com/sir-temi)
