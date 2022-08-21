@@ -2,4 +2,6 @@
 env
 __pycache__
 .DS_Store
+dist/
+pykuda.egg-info/
 pyproject.toml

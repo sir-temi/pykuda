@@ -3,7 +3,7 @@ import json
 import os
 import secrets
 
-from example_package_sirtemi.utils import (
+from pykuda.utils import (
     confirm_transfer_recipient_request,
     create_virtual_account_request,
     fund_virtual_account_request,

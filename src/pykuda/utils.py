@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 import requests
 
-from example_package_sirtemi.classes.py_kuda_response import PyKudaResponse
+from pykuda.classes.py_kuda_response import PyKudaResponse
 
 
 load_dotenv()

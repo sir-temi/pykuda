@@ -1,8 +1,7 @@
 import os
-from tabnanny import check
 from dotenv import load_dotenv
 
-from example_package_sirtemi.classes.service_type import ServiceType
+from pykuda.classes.service_type import ServiceType
 
 
 class PyKuda(ServiceType):
