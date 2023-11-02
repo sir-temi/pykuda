@@ -1,7 +1,16 @@
 from dataclasses import dataclass
 import json
-import os
 import secrets
+from constants import (
+    ADMIN_CREATE_VIRTUAL_ACCOUNT,
+    ADMIN_RETRIEVE_MAIN_ACCOUNT_BALANCE,
+    FUND_VIRTUAL_ACCOUNT,
+    NAME_ENQUIRY,
+    RETRIEVE_VIRTUAL_ACCOUNT_BALANCE,
+    SINGLE_FUND_TRANSFER,
+    VIRTUAL_ACCOUNT_FUND_TRANSFER,
+    WITHDRAW_VIRTUAL_ACCOUNT,
+)
 
 from pykuda.utils import (
     confirm_transfer_recipient_request,
@@ -52,7 +61,7 @@ class ServiceType:
         """
         data = json.dumps(
             {
-                "servicetype": "ADMIN_CREATE_VIRTUAL_ACCOUNT",
+                "servicetype": ADMIN_CREATE_VIRTUAL_ACCOUNT,
                 "requestref": secrets.token_hex(6),
                 "data": {
                     "phoneNumber": phone_number,
@@ -79,7 +88,7 @@ class ServiceType:
         """
         data = json.dumps(
             {
-                "servicetype": "RETRIEVE_VIRTUAL_ACCOUNT_BALANCE",
+                "servicetype": RETRIEVE_VIRTUAL_ACCOUNT_BALANCE,
                 "requestref": secrets.token_hex(6),
                 "data": {"trackingReference": tracking_reference},
             }
@@ -95,7 +104,7 @@ class ServiceType:
         """
         data = json.dumps(
             {
-                "serviceType": "ADMIN_RETRIEVE_MAIN_ACCOUNT_BALANCE",
+                "serviceType": ADMIN_RETRIEVE_MAIN_ACCOUNT_BALANCE,
                 "requestref": secrets.token_hex(6),
             }
         )
@@ -110,7 +119,7 @@ class ServiceType:
         """
         data = json.dumps(
             {
-                "serviceType": "FUND_VIRTUAL_ACCOUNT",
+                "serviceType": FUND_VIRTUAL_ACCOUNT,
                 "requestRef": secrets.token_hex(6),
                 "data": {
                     "trackingReference": tracking_reference,
@@ -130,7 +139,7 @@ class ServiceType:
         """
         data = json.dumps(
             {
-                "serviceType": "WITHDRAW_VIRTUAL_ACCOUNT",
+                "serviceType": WITHDRAW_VIRTUAL_ACCOUNT,
                 "requestRef": secrets.token_hex(6),
                 "data": {
                     "trackingReference": tracking_reference,
@@ -154,7 +163,7 @@ class ServiceType:
         """
         data = json.dumps(
             {
-                "serviceType": "NAME_ENQUIRY",
+                "serviceType": NAME_ENQUIRY,
                 "requestRef": secrets.token_hex(6),
                 "data": {
                     "beneficiaryAccountNumber": beneficiary_account_number,
@@ -184,9 +193,12 @@ class ServiceType:
         name_enquiry_session_id,
         sender_name,
     ):
+        """
+        This function is responsible for sending funds from the main account
+        """
         data = json.dumps(
             {
-                "serviceType": "SINGLE_FUND_TRANSFER",
+                "serviceType": SINGLE_FUND_TRANSFER,
                 "requestRef": secrets.token_hex(6),
                 "data": {
                     "ClientAccountNumber": client_account_number,
@@ -217,9 +229,12 @@ class ServiceType:
         name_enquiry_session_id,
         sender_name,
     ):
+        """
+        This function is responsible for sending funds from the virtual account
+        """
         data = json.dumps(
             {
-                "serviceType": "VIRTUAL_ACCOUNT_FUND_TRANSFER",
+                "serviceType": VIRTUAL_ACCOUNT_FUND_TRANSFER,
                 "requestRef": secrets.token_hex(6),
                 "data": {
                     "trackingReference": tracking_reference,
@@ -237,46 +252,3 @@ class ServiceType:
 
         response = send_funds_from_virtual_account_request(request_data)
         return response
-
-    def send_funds_out_of_account(
-        self,
-        beneficiary_account_number,
-        beneficiary_bank_code,
-        name_enquiry_session_id,
-        naration,
-        beneficiary_name,
-        amount,
-        sender_name,
-        tracking_reference=None,
-    ):
-        """
-        This function is responsible for sending funds from either the main account
-        or a virtual account. If a tracking reference is passed into the function,
-        it sends from the virtual account, if not, it sends from the main account.
-        """
-        if not tracking_reference:
-            response = self.send_funds_from_main_account(
-                os.getenv("MAIN_ACCOUNT_NUMBER"),
-                beneficiary_bank_code,
-                beneficiary_account_number,
-                beneficiary_name,
-                amount,
-                naration,
-                name_enquiry_session_id,
-                sender_name,
-            )
-
-            return response
-        else:
-            response = self.send_funds_from_virtual_account(
-                tracking_reference,
-                beneficiary_bank_code,
-                beneficiary_account_number,
-                beneficiary_name,
-                amount,
-                naration,
-                name_enquiry_session_id,
-                sender_name,
-            )
-
-            return response

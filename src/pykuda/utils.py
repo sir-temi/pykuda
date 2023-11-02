@@ -1,5 +1,6 @@
 import json
 import os
+from typing import Union
 from dotenv import load_dotenv
 import requests
 
@@ -14,6 +15,25 @@ REQUEST_URL = os.getenv("REQUEST_URL")
 EMAIL = os.getenv("EMAIL")
 
 
+def check_envs_are_set():
+    config = {
+        "KUDA_KEY": os.getenv("KUDA_KEY"),
+        "TOKEN_URL": os.getenv("TOKEN_URL"),
+        "REQUEST_URL": os.getenv("REQUEST_URL"),
+        "EMAIL": os.getenv("EMAIL"),
+        "MAIN_ACCOUNT_NUMBER": os.getenv("MAIN_ACCOUNT_NUMBER"),
+    }
+
+    if all(list(config.values())):
+        return True
+
+    for variable, value in config.items():
+        if not value:
+            return (
+                f"{variable} is not set, please set in the environment and try again."
+            )
+
+
 def get_token():
     data = {"email": EMAIL, "apiKey": KUDA_KEY}
     response = requests.post(
@@ -22,7 +42,7 @@ def get_token():
     return response
 
 
-def generate_headers():
+def generate_headers() -> Union[requests.models.Response, dict]:
     response = get_token()
     if response.status_code == 200:
         return {
@@ -32,7 +52,7 @@ def generate_headers():
     return response
 
 
-def get_bank_list_request(data):
+def get_bank_list_request(data) -> PyKudaResponse:
     """
     FUnction responsible for getting list of Nigerian
     Banks.
@@ -60,7 +80,7 @@ def get_bank_list_request(data):
             return pykuda_response
 
 
-def create_virtual_account_request(data, tracking_reference):
+def create_virtual_account_request(data, tracking_reference) -> PyKudaResponse:
     """
     This function is responsible for creating a virtual
     account.
