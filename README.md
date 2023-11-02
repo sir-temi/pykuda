@@ -20,8 +20,8 @@ After installation, the next thing is to create `.env` file where the environmen
 
 ```shell
 KUDA_KEY="Your Kuda Api Key"
-TOKEN_URL="Kuda API v2 Get Token endpoint"
-REQUEST_URL="Kuda API v2 Endpoint"
+TOKEN_URL="https://kuda-openapi.kuda.com/v2.1/Account/GetToken" # Kuda API v2.1 GetToken URL
+REQUEST_URL="https://kuda-openapi.kuda.com/v2.1/" # Kuda API v2.1 Request URL
 EMAIL="Your email used to register for the Kuda account"
 MAIN_ACCOUNT_NUMBER="Your main Kuda account number"
 ```
@@ -41,7 +41,9 @@ response = kuda.get_bank_list()
 
 ### Understanding PyKudaResponse
 
-Every request made using Python is filtered and a PyKudaResponse is returned, this response has two attributes, `status_code` and `data`.
+Every Python request is filtered, and the resulting PyKudaResponse object contains three attributes: `status_code`, `data`, and `error`. It's crucial to consistently check the `error` attribute to confirm the success of the method.
+
+Users should specifically validate that `error` is `False`. Despite Kuda returning a 200 HTTP response code, potential errors in the operation might exist. For example, when creating a virtual account with incorrect data, Kuda might respond with a 200 but set `status` to `False`. PyKuda handles this intelligently: if a 200 response is received but the `status` is `False`, PyKudaResponse is returned with `error` set to `True`. This mechanism aids in determining the success of the request.
 
 #### Successful request
 
@@ -49,10 +51,10 @@ Using the response above as an example;
 
 ```shell
 >>> response
->>> PyKudaResponse(status_code=200, data=[list_of_banks])
+>>> PyKudaResponse(status_code=200, data=[list_of_banks], error=False)
 ```
 
-As seen above, the PyKudaResponse returns the status_code and data, the data is an already filtered data of which you can access directly by executing `response.data`.
+As seen above, the PyKudaResponse returns the status_code, data and error; the data is an already filtered data of which you can access directly by executing `response.data`.
 
 #### Failed request
 
@@ -60,7 +62,7 @@ Incase the request wasn't successful, the PyKudaResponse will be different. The 
 
 ```shell
 >>> response
->>> PyKudaResponse(status_code=401, data=<Response [401]>)
+>>> PyKudaResponse(status_code=401, data=<Response [401]>, error=True)
 >>>
 >>> respose.data.text # 'Invalid Credentials'
 >>> respose.data.reason # 'Unauthorized'
@@ -76,9 +78,9 @@ Please refer to the [Kuda's Documentation](https://kudabank.gitbook.io/kudabank/
 
 ## Contributions & Issues
 
-- If you would like to contribute and improve this package, feel free to fork the repository, make changes and open a pull request.
-- If you encounter any issue or bugs, please open an issue.
+-   If you would like to contribute and improve this package, feel free to fork the repository, make changes and open a pull request.
+-   If you encounter any issue or bugs, please open an issue.
 
 ## Author
 
-- [Kayode TemiTope](https://github.com/sir-temi)
+-   [Kayode TemiTope](https://github.com/sir-temi)
