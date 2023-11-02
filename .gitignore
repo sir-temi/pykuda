@@ -5,3 +5,4 @@ __pycache__
 dist/
 pykuda.egg-info/
 pyproject.toml
+.history
