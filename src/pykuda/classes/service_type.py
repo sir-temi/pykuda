@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 import json
 import secrets
-from constants import (
+from pykuda.constants import (
     ADMIN_CREATE_VIRTUAL_ACCOUNT,
     ADMIN_RETRIEVE_MAIN_ACCOUNT_BALANCE,
     FUND_VIRTUAL_ACCOUNT,
