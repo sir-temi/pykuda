@@ -36,16 +36,12 @@ class ServiceType:
         """
         Gets the list of banks.
         """
-        data = json.dumps(
-            {
-                "serviceType": "BANK_LIST",
-                "requestRef": secrets.token_hex(6),
-            }
-        )
-        request_data = json.dumps({"data": data})
+        data = {
+            "serviceType": "BANK_LIST",
+            "requestRef": secrets.token_hex(6),
+        }
 
-        response = get_bank_list_request(request_data)
-        return response
+        return get_bank_list_request(data)
 
     def create_virtual_account(
         self,
@@ -59,136 +55,117 @@ class ServiceType:
         """
         Creates a virtual account.
         """
-        data = json.dumps(
-            {
-                "servicetype": ADMIN_CREATE_VIRTUAL_ACCOUNT,
-                "requestref": secrets.token_hex(6),
-                "data": {
-                    "phoneNumber": phone_number,
-                    "email": email,
-                    "lastName": last_name,
-                    "firstName": first_name,
-                    "middleName": middle_name if middle_name else None,
-                    "businessName": business_name if business_name else None,
-                    "trackingReference": secrets.token_hex(8),
-                },
-            }
-        )
-        request_data = (
-            json.dumps({"data": data}),
-            json.loads(data)["data"]["trackingReference"],
-        )
+        data = {
+            "servicetype": ADMIN_CREATE_VIRTUAL_ACCOUNT,
+            "requestref": secrets.token_hex(6),
+            "Data": {
+                "phoneNumber": phone_number,
+                "email": email,
+                "lastName": last_name,
+                "firstName": first_name,
+                "middleName": middle_name if middle_name else None,
+                "businessName": business_name if business_name else None,
+                "trackingReference": secrets.token_hex(8),
+            },
+        }
 
-        response = create_virtual_account_request(*request_data)
-        return response
+        return create_virtual_account_request(data)
 
     def get_virtaul_account_balance(self, tracking_reference):
         """
         Gets the balance of a virtual account.
         """
-        data = json.dumps(
-            {
-                "servicetype": RETRIEVE_VIRTUAL_ACCOUNT_BALANCE,
-                "requestref": secrets.token_hex(6),
-                "data": {"trackingReference": tracking_reference},
-            }
-        )
+        data = {
+            "servicetype": RETRIEVE_VIRTUAL_ACCOUNT_BALANCE,
+            "requestref": secrets.token_hex(6),
+            "data": {"trackingReference": tracking_reference},
+        }
 
-        request_data = json.dumps({"data": data})
-        response = get_virtaul_account_balance_request(request_data)
+        response = get_virtaul_account_balance_request(data)
         return response
 
     def get_main_account_balance(self):
         """
         Gets the account balance of the main account.
         """
-        data = json.dumps(
-            {
-                "serviceType": ADMIN_RETRIEVE_MAIN_ACCOUNT_BALANCE,
-                "requestref": secrets.token_hex(6),
-            }
-        )
-        request_data = json.dumps({"data": data})
+        data = {
+            "serviceType": ADMIN_RETRIEVE_MAIN_ACCOUNT_BALANCE,
+            "requestref": secrets.token_hex(6),
+        }
 
-        response = get_main_account_balance_request(request_data)
-        return response
+        return get_main_account_balance_request(data)
 
-    def fund_virtual_account(self, tracking_reference, amount, narration=None):
+    def fund_virtual_account(
+        self, tracking_reference: str, amount: str, narration: str
+    ):
         """
         Withdraws money from the main account and deposits into a virtual account.
         """
-        data = json.dumps(
-            {
-                "serviceType": FUND_VIRTUAL_ACCOUNT,
-                "requestRef": secrets.token_hex(6),
-                "data": {
-                    "trackingReference": tracking_reference,
-                    "amount": amount,
-                    "narration": narration,
-                },
-            }
-        )
-        request_data = json.dumps({"data": data})
+        data = {
+            "serviceType": FUND_VIRTUAL_ACCOUNT,
+            "requestRef": secrets.token_hex(6),
+            "Data": {
+                "trackingReference": tracking_reference,
+                "amount": amount,
+                "narration": narration,
+            },
+        }
 
-        response = fund_virtual_account_request(request_data)
-        return response
+        return fund_virtual_account_request(data)
 
-    def withdraw_from_virtual_account(self, tracking_reference, amount, narration=None):
+    def withdraw_from_virtual_account(
+        self, tracking_reference: str, amount: str, narration: str
+    ):
         """
         Withdraws money from a virtual account and deposits into the main account.
         """
-        data = json.dumps(
-            {
-                "serviceType": WITHDRAW_VIRTUAL_ACCOUNT,
-                "requestRef": secrets.token_hex(6),
-                "data": {
-                    "trackingReference": tracking_reference,
-                    "amount": amount,
-                    "narration": narration,
-                },
-            }
-        )
-        request_data = json.dumps({"data": data})
+        data = {
+            "serviceType": WITHDRAW_VIRTUAL_ACCOUNT,
+            "requestRef": secrets.token_hex(6),
+            "Data": {
+                "trackingReference": tracking_reference,
+                "amount": int(amount),
+                "narration": narration,
+            },
+        }
 
-        response = withdraw_from_virtual_account_requesr(request_data)
-        return response
+        return withdraw_from_virtual_account_requesr(data)
 
     def confirm_transfer_recipient(
-        self, beneficiary_account_number, beneficiary_bank_code, tracking_reference=None
+        self,
+        beneficiary_account_number: str,
+        beneficiary_bank_code: str,
+        tracking_reference=None,
     ):
         """
         This function is responsible for confirming a recipient details, and if the funds
         is to be transfered from a virtual account, it returns the tracking reference
         so it can be easily passed to the send_funds_Out_of_account method.
         """
-        data = json.dumps(
-            {
-                "serviceType": NAME_ENQUIRY,
-                "requestRef": secrets.token_hex(6),
-                "data": {
-                    "beneficiaryAccountNumber": beneficiary_account_number,
-                    "beneficiaryBankCode": beneficiary_bank_code,
-                    "SenderTrackingReference": tracking_reference
-                    if tracking_reference
-                    else "",  # Tracking reference of the virtual account trying to do the actual transfer. Leave it empty if the intended transfer is going to be from the main account
-                    "isRequestFromVirtualAccount": True
-                    if tracking_reference
-                    else False,  # True or False value. If the intended transfer is to be made by the virtual account
-                },
+        data = {
+            "serviceType": NAME_ENQUIRY,
+            "requestRef": secrets.token_hex(6),
+            "Data": {
+                "beneficiaryAccountNumber": beneficiary_account_number,
+                "beneficiaryBankCode": beneficiary_bank_code,
+                "SenderTrackingReference": tracking_reference
+                if tracking_reference
+                else "",  # Tracking reference of the virtual account trying to do the actual transfer. Leave it empty if the intended transfer is going to be from the main account
+                "isRequestFromVirtualAccount": True
+                if tracking_reference
+                else False,  # True or False value. If the intended transfer is to be made by the virtual account
             },
-        )
-        request_data = json.dumps({"data": data})
+        }
 
-        response = confirm_transfer_recipient_request(request_data, tracking_reference)
-        return response
+        return confirm_transfer_recipient_request(data)
 
     def send_funds_from_main_account(
         self,
         client_account_number,
         beneficiary_bank_code,
         beneficiary_account_number,
-        beneficiary_name,
-        amount,
+        beneficiary_name: str,
+        amount: str,
         naration,
         name_enquiry_session_id,
         sender_name,
@@ -196,27 +173,24 @@ class ServiceType:
         """
         This function is responsible for sending funds from the main account
         """
-        data = json.dumps(
-            {
-                "serviceType": SINGLE_FUND_TRANSFER,
-                "requestRef": secrets.token_hex(6),
-                "data": {
-                    "ClientAccountNumber": client_account_number,
-                    "beneficiaryBankCode": beneficiary_bank_code,
-                    "beneficiaryAccount": beneficiary_account_number,
-                    "beneficiaryName": beneficiary_name,
-                    "amount": amount,
-                    "narration": naration,
-                    "nameEnquirySessionID": name_enquiry_session_id,
-                    "trackingReference": "",
-                    "senderName": sender_name,
-                },
+        data = {
+            "serviceType": SINGLE_FUND_TRANSFER,
+            "requestRef": secrets.token_hex(6),
+            "Data": {
+                "ClientAccountNumber": client_account_number,
+                "beneficiaryBankCode": beneficiary_bank_code,
+                "beneficiaryAccount": beneficiary_account_number,
+                "beneficiaryName": beneficiary_name,
+                "amount": int(amount),
+                "narration": naration,
+                "nameEnquirySessionID": name_enquiry_session_id,
+                "trackingReference": "",
+                "senderName": sender_name,
+                "clientFeeCharge": 0,
             },
-        )
-        request_data = json.dumps({"data": data})
+        }
 
-        response = send_funds_from_main_account_request(request_data)
-        return response
+        return send_funds_from_main_account_request(data)
 
     def send_funds_from_virtual_account(
         self,
@@ -230,25 +204,22 @@ class ServiceType:
         sender_name,
     ):
         """
-        This function is responsible for sending funds from the virtual account
+        This function is responsible for sending funds from a virtual account
         """
-        data = json.dumps(
-            {
-                "serviceType": VIRTUAL_ACCOUNT_FUND_TRANSFER,
-                "requestRef": secrets.token_hex(6),
-                "data": {
-                    "trackingReference": tracking_reference,
-                    "beneficiaryBankCode": beneficiary_bank_code,
-                    "beneficiaryAccount": beneficiary_account_number,
-                    "beneficiaryName": beneficiary_name,
-                    "amount": amount,
-                    "narration": naration,
-                    "nameEnquiryId": name_enquiry_session_id,
-                    "senderName": sender_name,
-                },
+        data = {
+            "serviceType": VIRTUAL_ACCOUNT_FUND_TRANSFER,
+            "requestRef": secrets.token_hex(6),
+            "Data": {
+                "trackingReference": tracking_reference,
+                "beneficiaryBankCode": beneficiary_bank_code,
+                "beneficiaryAccount": beneficiary_account_number,
+                "beneficiaryName": beneficiary_name,
+                "amount": int(amount),
+                "narration": naration,
+                "nameEnquiryId": name_enquiry_session_id,
+                "senderName": sender_name,
+                "clientFeeCharge": 0,
             },
-        )
-        request_data = json.dumps({"data": data})
+        }
 
-        response = send_funds_from_virtual_account_request(request_data)
-        return response
+        return send_funds_from_virtual_account_request(data)
