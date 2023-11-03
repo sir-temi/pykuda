@@ -6,7 +6,7 @@ A python package that simplifies using the Kuda Bank Api. While the Kuda Bank Ap
 
 ### Install PyKuda
 
-To use this package, use the package manage [pip](https://pip.pypa.io/en/stable/) to install PyKuda.
+To use this package, install it using the package manager [pip](https://pip.pypa.io/en/stable/):
 
 ```bash
 pip install pykuda
@@ -78,7 +78,7 @@ Please refer to the [Kuda's Documentation](https://kudabank.gitbook.io/kudabank/
 
 ## Contributions & Issues
 
--   If you would like to contribute and improve this package, feel free to fork the repository, make changes and open a pull request.
+-   If you would like to contribute and improve this package or it's documentation, please feel free to fork the repository, make changes and open a pull request.
 -   If you encounter any issue or bugs, please open an issue.
 
 ## Author
