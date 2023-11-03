@@ -72,7 +72,7 @@ Incase the request wasn't successful, the PyKudaResponse will be different. The 
 
 PyKuda can be used to make other requests also, if you would like to learn more about how to use PyKuda to make other requests, please check the source code. Hopefully, I would be able to improve this documentation to show examples of how it can be used to make other requests. A list of request PyKuda can make are listed below.
 
-`BANK_LIST`, `ADMIN_CREATE_VIRTUAL_ACCOUNT`, `RETRIEVE_VIRTUAL_ACCOUNT_BALANCE`, `ADMIN_RETRIEVE_MAIN_ACCOUNT_BALANCE`, `FUND_VIRTUAL_ACCOUNT`, `WITHDRAW_VIRTUAL_ACCOUNT`, `NAME_ENQUIRY`, `SINGLE_FUND_TRANSFER`, and `VIRTUAL_ACCOUNT_FUND_TRANSFER`.
+`BANK_LIST`, `ADMIN_CREATE_VIRTUAL_ACCOUNT`, `RETRIEVE_VIRTUAL_ACCOUNT_BALANCE`, `ADMIN_RETRIEVE_MAIN_ACCOUNT_BALANCE`, `FUND_VIRTUAL_ACCOUNT`, `WITHDRAW_VIRTUAL_ACCOUNT`, `NAME_ENQUIRY`, `SINGLE_FUND_TRANSFER`, `VIRTUAL_ACCOUNT_FUND_TRANSFER`, `GET_BILLERS_BY_TYPE`, `VERIFY_BILL_CUSTOMER`, and `PURCHASE_BILL`.
 
 Please refer to the [Kuda's Documentation](https://kudabank.gitbook.io/kudabank/) to read more about these requests.
 
