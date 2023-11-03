@@ -6,7 +6,7 @@ A python package that simplifies using the Kuda Bank Api. While the Kuda Bank Ap
 
 ### Install PyKuda
 
-To use this package, use the package manage [pip](https://pip.pypa.io/en/stable/) to install PyKuda.
+To use this package, install it using the package manager [pip](https://pip.pypa.io/en/stable/):
 
 ```bash
 pip install pykuda
@@ -72,13 +72,13 @@ Incase the request wasn't successful, the PyKudaResponse will be different. The 
 
 PyKuda can be used to make other requests also, if you would like to learn more about how to use PyKuda to make other requests, please check the source code. Hopefully, I would be able to improve this documentation to show examples of how it can be used to make other requests. A list of request PyKuda can make are listed below.
 
-`BANK_LIST`, `ADMIN_CREATE_VIRTUAL_ACCOUNT`, `RETRIEVE_VIRTUAL_ACCOUNT_BALANCE`, `ADMIN_RETRIEVE_MAIN_ACCOUNT_BALANCE`, `FUND_VIRTUAL_ACCOUNT`, `WITHDRAW_VIRTUAL_ACCOUNT`, `NAME_ENQUIRY`, `SINGLE_FUND_TRANSFER`, and `VIRTUAL_ACCOUNT_FUND_TRANSFER`.
+`BANK_LIST`, `ADMIN_CREATE_VIRTUAL_ACCOUNT`, `RETRIEVE_VIRTUAL_ACCOUNT_BALANCE`, `ADMIN_RETRIEVE_MAIN_ACCOUNT_BALANCE`, `FUND_VIRTUAL_ACCOUNT`, `WITHDRAW_VIRTUAL_ACCOUNT`, `NAME_ENQUIRY`, `SINGLE_FUND_TRANSFER`, `VIRTUAL_ACCOUNT_FUND_TRANSFER`, `GET_BILLERS_BY_TYPE`, `VERIFY_BILL_CUSTOMER`, and `PURCHASE_BILL`.
 
 Please refer to the [Kuda's Documentation](https://kudabank.gitbook.io/kudabank/) to read more about these requests.
 
 ## Contributions & Issues
 
--   If you would like to contribute and improve this package, feel free to fork the repository, make changes and open a pull request.
+-   If you would like to contribute and improve this package or it's documentation, please feel free to fork the repository, make changes and open a pull request.
 -   If you encounter any issue or bugs, please open an issue.
 
 ## Author
