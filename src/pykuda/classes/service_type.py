@@ -5,9 +5,12 @@ from pykuda.constants import (
     ADMIN_CREATE_VIRTUAL_ACCOUNT,
     ADMIN_RETRIEVE_MAIN_ACCOUNT_BALANCE,
     FUND_VIRTUAL_ACCOUNT,
+    GET_BILLERS_BY_TYPE,
     NAME_ENQUIRY,
+    PURCHASE_BILL,
     RETRIEVE_VIRTUAL_ACCOUNT_BALANCE,
     SINGLE_FUND_TRANSFER,
+    VERIFY_BILL_CUSTOMER,
     VIRTUAL_ACCOUNT_FUND_TRANSFER,
     WITHDRAW_VIRTUAL_ACCOUNT,
 )
@@ -17,10 +20,13 @@ from pykuda.utils import (
     create_virtual_account_request,
     fund_virtual_account_request,
     get_bank_list_request,
+    get_billers,
     get_main_account_balance_request,
     get_virtaul_account_balance_request,
     send_funds_from_main_account_request,
     send_funds_from_virtual_account_request,
+    verify_bill_customer,
+    virtual_account_purchase_bill,
     withdraw_from_virtual_account_requesr,
 )
 
@@ -223,3 +229,66 @@ class ServiceType:
         }
 
         return send_funds_from_virtual_account_request(data)
+
+    def get_billers(
+        self,
+        biller_type,
+    ):
+        """
+        This function is responsible getting billers by a biller type
+        The list of available biller type are:
+        airtime , betting , internet Data , electricity, cableTv.
+        """
+        data = {
+            "serviceType": GET_BILLERS_BY_TYPE,
+            "requestref": secrets.token_hex(6),
+            "Data": {
+                "BillTypeName": biller_type,
+            },
+        }
+
+        return get_billers(data)
+
+    def verify_bill_customer(
+        self,
+        kuda_biller_item_identifier,
+        customer_identifier,
+    ):
+        """
+        This function is responsible for verifying a bill by customer
+        """
+        data = {
+            "serviceType": VERIFY_BILL_CUSTOMER,
+            "requestref": secrets.token_hex(6),
+            "Data": {
+                "KudaBillItemIdentifier": kuda_biller_item_identifier,
+                "CustomerIdentification": customer_identifier,
+            },
+        }
+
+        return verify_bill_customer(data)
+
+    def virtual_account_purchase_bill(
+        self,
+        amount,
+        kuda_biller_item_identifier,
+        customer_identifier,
+        tracking_reference,
+        phone_number=None,
+    ):
+        """
+        This function is responsible for purchasings a bill with virtual account
+        """
+        data = {
+            "serviceType": PURCHASE_BILL,
+            "requestref": secrets.token_hex(6),
+            "Data": {
+                "Amount": amount,
+                "BillItemIdentifier": kuda_biller_item_identifier,
+                "PhoneNumber": phone_number,
+                "CustomerIdentifier": customer_identifier,
+                "TrackingReference": tracking_reference,
+            },
+        }
+
+        return virtual_account_purchase_bill(data)
