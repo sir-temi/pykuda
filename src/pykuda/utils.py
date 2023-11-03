@@ -357,3 +357,99 @@ def send_funds_from_virtual_account_request(data):
             return PyKudaResponse(
                 status_code=response.status_code, data=response, error=True
             )
+
+
+def get_billers(data):
+    headers = generate_headers()
+
+    if isinstance(headers, requests.models.Response):
+        return PyKudaResponse(status_code=headers.status_code, data=headers)
+    else:
+        response = requests.post(
+            REQUEST_URL,
+            json=data,
+            headers=headers,
+        )
+
+        response_data = response.json()
+
+        if (
+            response.status_code == 200
+            and response_data.get("status")
+            and response_data.get("data")
+            and response_data.get("data").get("billers")
+        ):
+            return PyKudaResponse(
+                status_code=200,
+                data={
+                    "billers": response_data.get("data").get("billers"),
+                },
+            )
+        else:
+            return PyKudaResponse(
+                status_code=response.status_code, data=response, error=True
+            )
+
+
+def verify_bill_customer(data):
+    headers = generate_headers()
+
+    if isinstance(headers, requests.models.Response):
+        return PyKudaResponse(status_code=headers.status_code, data=headers)
+    else:
+        response = requests.post(
+            REQUEST_URL,
+            json=data,
+            headers=headers,
+        )
+
+        response_data = response.json()
+
+        if (
+            response.status_code == 200
+            and response_data.get("status")
+            and response_data.get("data")
+            and response_data.get("data").get("customerName")
+        ):
+            return PyKudaResponse(
+                status_code=200,
+                data={
+                    "customerName": response_data.get("data").get("customerName"),
+                },
+            )
+        else:
+            return PyKudaResponse(
+                status_code=response.status_code, data=response, error=True
+            )
+
+
+def virtual_account_purchase_bill(data):
+    headers = generate_headers()
+
+    if isinstance(headers, requests.models.Response):
+        return PyKudaResponse(status_code=headers.status_code, data=headers)
+    else:
+        response = requests.post(
+            REQUEST_URL,
+            json=data,
+            headers=headers,
+        )
+
+        response_data = response.json()
+
+        if (
+            response.status_code == 200
+            and response_data.get("status")
+            and response_data.get("data")
+            and response_data.get("data").get("reference")
+        ):
+            return PyKudaResponse(
+                status_code=200,
+                data={
+                    "reference": response_data.get("data").get("reference"),
+                },
+            )
+        else:
+            return PyKudaResponse(
+                status_code=response.status_code, data=response, error=True
+            )
