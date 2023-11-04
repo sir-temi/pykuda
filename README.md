@@ -28,13 +28,13 @@ MAIN_ACCOUNT_NUMBER="Your main Kuda account number"
 
 NB: Please make sure you do not push your `.env` file to public repositories as the details here are confidential.
 
-### Use PyKuda
+### Using PyKuda
 
 ```python
 from pykuda.pykuda import PyKuda
 
 kuda = PyKuda()
-response = kuda.get_bank_list()
+response = kuda.bank_list()
 
 # response contains PyKudaResponse which has the status code and data.
 ```
