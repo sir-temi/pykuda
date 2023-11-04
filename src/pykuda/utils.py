@@ -1,11 +1,37 @@
-import os
+from dataclasses import dataclass
+from decouple import config
 import secrets
-from dotenv import load_dotenv
 import requests
 
-load_dotenv()
+
+def check_envs_are_set() -> bool | str:
+    """
+    Checks if important environmental variables are set.
+
+    Returns:
+        A dictionary of credentials if all environmental variables are set,
+        otherwise a string with missing variables.
+    """
+    credentials = {
+        "KUDA_KEY": config("KUDA_KEY", default=None),
+        "TOKEN_URL": config("TOKEN_URL", default=None),
+        "REQUEST_URL": config("REQUEST_URL", default=None),
+        "EMAIL": config("EMAIL", default=None),
+        "MAIN_ACCOUNT_NUMBER": config("MAIN_ACCOUNT_NUMBER", default=None),
+    }
+
+    if all(list(credentials.values())):
+        return credentials
+
+    unset_variables = [var for var, value in credentials.items() if not value]
+    return (
+        f"{', '.join(unset_variables)} is not set, please set in the environment and try again."
+        if unset_variables
+        else credentials
+    )
 
 
+@dataclass
 class Utils:
     """Attributes:
     credentials (dict): A dictionary containing KUDA service credentials including:
@@ -15,27 +41,7 @@ class Utils:
         - "EMAIL": Email associated with the KUDA account.
         - "MAIN_ACCOUNT_NUMBER": Main account number."""
 
-    credentials = {
-        "KUDA_KEY": os.getenv("KUDA_KEY"),
-        "TOKEN_URL": os.getenv("TOKEN_URL"),
-        "REQUEST_URL": os.getenv("REQUEST_URL"),
-        "EMAIL": os.getenv("EMAIL"),
-        "MAIN_ACCOUNT_NUMBER": os.getenv("MAIN_ACCOUNT_NUMBER"),
-    }
-
-    def check_envs_are_set(self) -> bool | str:
-        """
-        Checks if important environmental variables are set.
-
-        Returns:
-            True if all environmental variables are set, otherwise a string with missing variables.
-        """
-        if all(list(self.credentials.values())):
-            return True
-
-        for variable, value in self.credentials.items():
-            if not value:
-                return f"{variable} is not set, please set in the environment and try again."
+    credentials = None
 
     def get_token(self) -> str:
         """
