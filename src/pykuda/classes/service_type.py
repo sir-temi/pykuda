@@ -1,53 +1,27 @@
 from dataclasses import dataclass
-import json
 import secrets
-from pykuda.constants import (
-    ADMIN_CREATE_VIRTUAL_ACCOUNT,
-    ADMIN_RETRIEVE_MAIN_ACCOUNT_BALANCE,
-    FUND_VIRTUAL_ACCOUNT,
-    GET_BILLERS_BY_TYPE,
-    NAME_ENQUIRY,
-    PURCHASE_BILL,
-    RETRIEVE_VIRTUAL_ACCOUNT_BALANCE,
-    SINGLE_FUND_TRANSFER,
-    VERIFY_BILL_CUSTOMER,
-    VIRTUAL_ACCOUNT_FUND_TRANSFER,
-    WITHDRAW_VIRTUAL_ACCOUNT,
-)
 
-from pykuda.utils import (
-    confirm_transfer_recipient_request,
-    create_virtual_account_request,
-    fund_virtual_account_request,
-    get_bank_list_request,
-    get_billers,
-    get_main_account_balance_request,
-    get_virtaul_account_balance_request,
-    send_funds_from_main_account_request,
-    send_funds_from_virtual_account_request,
-    verify_bill_customer,
-    virtual_account_purchase_bill,
-    withdraw_from_virtual_account_requesr,
-)
+from pykuda.classes.py_kuda_response import PyKudaResponse
+from pykuda.constants import ServiceTypeConstants
+from pykuda.service_type_utils import ServiceTypeUtils
 
 
 @dataclass
-class ServiceType:
+class ServiceType(ServiceTypeUtils):
     """
     This class handles all the Service functionalities, it
     has methods that handle each type of transaction.
     """
 
-    def get_bank_list(self):
+    def bank_list(self) -> PyKudaResponse:
         """
-        Gets the list of banks.
-        """
-        data = {
-            "serviceType": "BANK_LIST",
-            "requestRef": secrets.token_hex(6),
-        }
+        Get the list of banks.
 
-        return get_bank_list_request(data)
+        Returns:
+            PyKudaResponse: Response object containing the result of the request.
+        """
+        data = self.generate_common_data(ServiceTypeConstants.BANK_LIST.value)
+        return self.bank_list_request(data)
 
     def create_virtual_account(
         self,
@@ -55,16 +29,28 @@ class ServiceType:
         last_name: str,
         phone_number: str,
         email: str,
-        middle_name: str = None,
-        business_name: str = None,
-    ):
+        middle_name: str | None = None,
+        business_name: str | None = None,
+    ) -> PyKudaResponse:
         """
-        Creates a virtual account.
+        Create a virtual account.
+
+        Args:
+            first_name (str): First name of the account holder.
+            last_name (str): Last name of the account holder.
+            phone_number (str): Phone number associated with the account.
+            email (str): Email address associated with the account.
+            middle_name (str, optional): Middle name of the account holder. Defaults to None.
+            business_name (str, optional): Business name if applicable. Defaults to None.
+
+        Returns:
+            PyKudaResponse: Response object containing the result of the request.
         """
-        data = {
-            "servicetype": ADMIN_CREATE_VIRTUAL_ACCOUNT,
-            "requestref": secrets.token_hex(6),
-            "Data": {
+        data = self.generate_common_data(
+            ServiceTypeConstants.ADMIN_CREATE_VIRTUAL_ACCOUNT.value
+        )
+        data["Data"].update(
+            {
                 "phoneNumber": phone_number,
                 "email": email,
                 "lastName": last_name,
@@ -72,117 +58,142 @@ class ServiceType:
                 "middleName": middle_name if middle_name else None,
                 "businessName": business_name if business_name else None,
                 "trackingReference": secrets.token_hex(8),
-            },
-        }
+            }
+        )
 
-        return create_virtual_account_request(data)
+        return self.create_virtual_account_request(data)
 
-    def get_virtaul_account_balance(self, tracking_reference):
+    def virtual_account_balance(self, tracking_reference: str) -> PyKudaResponse:
         """
-        Gets the balance of a virtual account.
-        """
-        data = {
-            "servicetype": RETRIEVE_VIRTUAL_ACCOUNT_BALANCE,
-            "requestref": secrets.token_hex(6),
-            "data": {"trackingReference": tracking_reference},
-        }
+        Get the balance of a virtual account.
 
-        response = get_virtaul_account_balance_request(data)
-        return response
+        Args:
+            tracking_reference (str): Tracking reference of the virtual account.
 
-    def get_main_account_balance(self):
+        Returns:
+            PyKudaResponse: Response object containing the result of the request.
         """
-        Gets the account balance of the main account.
-        """
-        data = {
-            "serviceType": ADMIN_RETRIEVE_MAIN_ACCOUNT_BALANCE,
-            "requestref": secrets.token_hex(6),
-        }
+        data = self.generate_common_data(
+            ServiceTypeConstants.RETRIEVE_VIRTUAL_ACCOUNT_BALANCE.value
+        )
+        data["Data"].update({"trackingReference": tracking_reference})
+        return self.virtual_account_balance_request(data)
 
-        return get_main_account_balance_request(data)
+    def main_account_balance(self) -> PyKudaResponse:
+        """
+        Get the account balance of the main account.
+
+        Returns:
+            PyKudaResponse: Response object containing the result of the request.
+        """
+        data = self.generate_common_data(
+            ServiceTypeConstants.ADMIN_RETRIEVE_MAIN_ACCOUNT_BALANCE.value
+        )
+        return self.main_account_balance_request(data)
 
     def fund_virtual_account(
         self, tracking_reference: str, amount: str, narration: str
-    ):
+    ) -> PyKudaResponse:
         """
-        Withdraws money from the main account and deposits into a virtual account.
-        """
-        data = {
-            "serviceType": FUND_VIRTUAL_ACCOUNT,
-            "requestRef": secrets.token_hex(6),
-            "Data": {
-                "trackingReference": tracking_reference,
-                "amount": amount,
-                "narration": narration,
-            },
-        }
+        Withdraw money from the main account and deposit into a virtual account.
 
-        return fund_virtual_account_request(data)
+        Args:
+            tracking_reference (str): Tracking reference of the virtual account.
+            amount (str): Amount to be funded.
+            narration (str): Description of the transaction.
+
+        Returns:
+            PyKudaResponse: Response object containing the result of the request.
+        """
+        data = self.generate_common_data(
+            ServiceTypeConstants.FUND_VIRTUAL_ACCOUNT.value, tracking_reference
+        )
+        data["Data"].update({"amount": amount, "narration": narration})
+        return self.fund_virtual_account_request(data)
 
     def withdraw_from_virtual_account(
         self, tracking_reference: str, amount: str, narration: str
-    ):
+    ) -> PyKudaResponse:
         """
-        Withdraws money from a virtual account and deposits into the main account.
-        """
-        data = {
-            "serviceType": WITHDRAW_VIRTUAL_ACCOUNT,
-            "requestRef": secrets.token_hex(6),
-            "Data": {
-                "trackingReference": tracking_reference,
-                "amount": int(amount),
-                "narration": narration,
-            },
-        }
+        Withdraw money from a virtual account and deposit into the main account.
 
-        return withdraw_from_virtual_account_requesr(data)
+        Args:
+            tracking_reference (str): Tracking reference of the virtual account.
+            amount (str): Amount to be withdrawn.
+            narration (str): Description of the transaction.
+
+        Returns:
+            PyKudaResponse: Response object containing the result of the request.
+        """
+        data = self.generate_common_data(
+            ServiceTypeConstants.WITHDRAW_VIRTUAL_ACCOUNT.value, tracking_reference
+        )
+        data["Data"].update({"amount": int(amount), "narration": narration})
+        return self.withdraw_from_virtual_account_request(data)
 
     def confirm_transfer_recipient(
         self,
         beneficiary_account_number: str,
         beneficiary_bank_code: str,
-        tracking_reference=None,
-    ):
+        tracking_reference: str | None = None,
+    ) -> PyKudaResponse:
         """
-        This function is responsible for confirming a recipient details, and if the funds
-        is to be transfered from a virtual account, it returns the tracking reference
-        so it can be easily passed to the send_funds_Out_of_account method.
+        Confirm recipient details for fund transfer.
+
+        Args:
+            beneficiary_account_number (str): Account number of the recipient.
+            beneficiary_bank_code (str): Bank code of the recipient's bank.
+            tracking_reference (str, optional): Tracking reference for virtual
+            account transfer. Defaults to None.
+
+        Returns:
+            PyKudaResponse: Response object containing the result of the request.
         """
-        data = {
-            "serviceType": NAME_ENQUIRY,
-            "requestRef": secrets.token_hex(6),
-            "Data": {
+        data = self.generate_common_data(ServiceTypeConstants.NAME_ENQUIRY.value)
+        data["Data"].update(
+            {
                 "beneficiaryAccountNumber": beneficiary_account_number,
                 "beneficiaryBankCode": beneficiary_bank_code,
                 "SenderTrackingReference": tracking_reference
                 if tracking_reference
-                else "",  # Tracking reference of the virtual account trying to do the actual transfer. Leave it empty if the intended transfer is going to be from the main account
-                "isRequestFromVirtualAccount": True
-                if tracking_reference
-                else False,  # True or False value. If the intended transfer is to be made by the virtual account
-            },
-        }
-
-        return confirm_transfer_recipient_request(data)
+                else "",
+                "isRequestFromVirtualAccount": bool(tracking_reference),
+            }
+        )
+        return self.confirm_transfer_recipient_request(data)
 
     def send_funds_from_main_account(
         self,
-        client_account_number,
-        beneficiary_bank_code,
-        beneficiary_account_number,
+        client_account_number: str,
+        beneficiary_bank_code: str,
+        beneficiary_account_number: str,
         beneficiary_name: str,
         amount: str,
-        naration,
-        name_enquiry_session_id,
-        sender_name,
-    ):
+        naration: str,
+        name_enquiry_session_id: str,
+        sender_name: str,
+    ) -> PyKudaResponse:
         """
-        This function is responsible for sending funds from the main account
+        Send funds from the main account to another account.
+
+        Args:
+            client_account_number (str): Account number of the sender.
+            beneficiary_bank_code (str): Bank code of the recipient's bank.
+            beneficiary_account_number (str): Account number of the recipient.
+            beneficiary_name (str): Name of the recipient.
+            amount (str): Amount to be transferred.
+            naration (str): Description of the transaction.
+            name_enquiry_session_id (str): ID for name enquiry session.
+            sender_name (str): Name of the sender.
+
+        Returns:
+            PyKudaResponse: Response object containing the result of the request.
         """
-        data = {
-            "serviceType": SINGLE_FUND_TRANSFER,
-            "requestRef": secrets.token_hex(6),
-            "Data": {
+        data = self.generate_common_data(
+            ServiceTypeConstants.SINGLE_FUND_TRANSFER.value
+        )
+        data["Data"].update(
+            {
                 "ClientAccountNumber": client_account_number,
                 "beneficiaryBankCode": beneficiary_bank_code,
                 "beneficiaryAccount": beneficiary_account_number,
@@ -193,30 +204,42 @@ class ServiceType:
                 "trackingReference": "",
                 "senderName": sender_name,
                 "clientFeeCharge": 0,
-            },
-        }
-
-        return send_funds_from_main_account_request(data)
+            }
+        )
+        return self.send_funds_from_main_account_request(data)
 
     def send_funds_from_virtual_account(
         self,
-        tracking_reference,
-        beneficiary_bank_code,
-        beneficiary_account_number,
-        beneficiary_name,
-        amount,
-        naration,
-        name_enquiry_session_id,
-        sender_name,
-    ):
+        tracking_reference: str,
+        beneficiary_bank_code: str,
+        beneficiary_account_number: str,
+        beneficiary_name: str,
+        amount: str,
+        naration: str,
+        name_enquiry_session_id: str,
+        sender_name: str,
+    ) -> PyKudaResponse:
         """
-        This function is responsible for sending funds from a virtual account
+        Send funds from a virtual account to another account.
+
+        Args:
+            tracking_reference (str): Tracking reference of the virtual account.
+            beneficiary_bank_code (str): Bank code of the recipient's bank.
+            beneficiary_account_number (str): Account number of the recipient.
+            beneficiary_name (str): Name of the recipient.
+            amount (str): Amount to be transferred.
+            naration (str): Description of the transaction.
+            name_enquiry_session_id (str): ID for name enquiry session.
+            sender_name (str): Name of the sender.
+
+        Returns:
+            PyKudaResponse: Response object containing the result of the request.
         """
-        data = {
-            "serviceType": VIRTUAL_ACCOUNT_FUND_TRANSFER,
-            "requestRef": secrets.token_hex(6),
-            "Data": {
-                "trackingReference": tracking_reference,
+        data = self.generate_common_data(
+            ServiceTypeConstants.VIRTUAL_ACCOUNT_FUND_TRANSFER.value, tracking_reference
+        )
+        data["Data"].update(
+            {
                 "beneficiaryBankCode": beneficiary_bank_code,
                 "beneficiaryAccount": beneficiary_account_number,
                 "beneficiaryName": beneficiary_name,
@@ -225,70 +248,83 @@ class ServiceType:
                 "nameEnquiryId": name_enquiry_session_id,
                 "senderName": sender_name,
                 "clientFeeCharge": 0,
-            },
-        }
+            }
+        )
+        return self.send_funds_from_virtual_account_request(data)
 
-        return send_funds_from_virtual_account_request(data)
-
-    def get_billers(
+    def billers(
         self,
-        biller_type,
-    ):
+        biller_type: str,
+    ) -> PyKudaResponse:
         """
-        This function is responsible getting billers by a biller type
-        The list of available biller type are:
-        airtime , betting , internet Data , electricity, cableTv.
-        """
-        data = {
-            "serviceType": GET_BILLERS_BY_TYPE,
-            "requestref": secrets.token_hex(6),
-            "Data": {
-                "BillTypeName": biller_type,
-            },
-        }
+        Get billers by a specified biller type.
 
-        return get_billers(data)
+        Args:
+            biller_type (str): Type of billers to retrieve.
+
+        Returns:
+            PyKudaResponse: Response object containing the result of the request.
+        """
+        data = self.generate_common_data(ServiceTypeConstants.GET_BILLERS_BY_TYPE.value)
+        data["Data"].update({"BillTypeName": biller_type})
+        return self.billers_request(data)
 
     def verify_bill_customer(
         self,
-        kuda_biller_item_identifier,
-        customer_identifier,
-    ):
+        kuda_biller_item_identifier: str,
+        customer_identifier: str,
+    ) -> PyKudaResponse:
         """
-        This function is responsible for verifying a bill by customer
+        Verify a bill by customer.
+
+        Args:
+            kuda_biller_item_identifier (str): Identifier of the bill item in Kuda.
+            customer_identifier (str): Identifier of the customer.
+
+        Returns:
+            PyKudaResponse: Response object containing the result of the request.
         """
-        data = {
-            "serviceType": VERIFY_BILL_CUSTOMER,
-            "requestref": secrets.token_hex(6),
-            "Data": {
+        data = self.generate_common_data(
+            ServiceTypeConstants.VERIFY_BILL_CUSTOMER.value
+        )
+        data["Data"].update(
+            {
                 "KudaBillItemIdentifier": kuda_biller_item_identifier,
                 "CustomerIdentification": customer_identifier,
-            },
-        }
-
-        return verify_bill_customer(data)
+            }
+        )
+        return self.verify_bill_customer_request(data)
 
     def virtual_account_purchase_bill(
         self,
-        amount,
-        kuda_biller_item_identifier,
-        customer_identifier,
-        tracking_reference,
-        phone_number=None,
-    ):
+        amount: str,
+        kuda_biller_item_identifier: str,
+        customer_identifier: str,
+        tracking_reference: str,
+        phone_number: str | None = None,
+    ) -> PyKudaResponse:
         """
-        This function is responsible for purchasings a bill with virtual account
+        Purchase a bill with a virtual account.
+
+        Args:
+            amount (str): Amount to pay for the bill.
+            kuda_biller_item_identifier (str): Identifier of the bill item in Kuda.
+            customer_identifier (str): Identifier of the customer.
+            tracking_reference (str): Tracking reference for the virtual account.
+            phone_number (str, optional): Phone number of the customer. Defaults to None.
+
+        Returns:
+            PyKudaResponse: Response object containing the result of the request.
         """
-        data = {
-            "serviceType": PURCHASE_BILL,
-            "requestref": secrets.token_hex(6),
-            "Data": {
+        data = self.generate_common_data(
+            ServiceTypeConstants.PURCHASE_BILL.value, tracking_reference
+        )
+        data["Data"].update(
+            {
                 "Amount": amount,
                 "BillItemIdentifier": kuda_biller_item_identifier,
                 "PhoneNumber": phone_number,
                 "CustomerIdentifier": customer_identifier,
-                "TrackingReference": tracking_reference,
-            },
-        }
-
-        return virtual_account_purchase_bill(data)
+            }
+        )
+        return self.virtual_account_purchase_bill_request(data)
