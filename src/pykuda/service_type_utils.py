@@ -516,3 +516,194 @@ class ServiceTypeUtils(Utils):
                 return PyKudaResponse(
                     status_code=response.status_code, data=response, error=True
                 )
+
+    def disable_virtual_account_request(self, data: dict) -> PyKudaResponse:
+        """
+        Makes a bill payment using a virtual account.
+
+        Args:
+            data (dict): Request data for the API call.
+
+        Returns:
+            A PyKudaResponse object with the payment reference or an error message.
+        """
+        headers = self.generate_headers()
+
+        if isinstance(headers, requests.models.Response):
+            return PyKudaResponse(status_code=headers.status_code, data=headers)
+        else:
+            response = requests.post(
+                self.credentials["REQUEST_URL"],
+                json=data,
+                headers=headers,
+                timeout=10,
+            )
+
+            response_data = response.json()
+
+            if response.status_code == 200 and response_data.get("status"):
+                return PyKudaResponse(
+                    status_code=200,
+                    data={
+                        "account_number": response_data.get("data").get(
+                            "accountNumber"
+                        ),
+                    },
+                )
+            else:
+                return PyKudaResponse(
+                    status_code=response.status_code, data=response, error=True
+                )
+
+    def enable_virtual_account_request(self, data: dict) -> PyKudaResponse:
+        """
+        Makes a bill payment using a virtual account.
+
+        Args:
+            data (dict): Request data for the API call.
+
+        Returns:
+            A PyKudaResponse object with the payment reference or an error message.
+        """
+        headers = self.generate_headers()
+
+        if isinstance(headers, requests.models.Response):
+            return PyKudaResponse(status_code=headers.status_code, data=headers)
+        else:
+            response = requests.post(
+                self.credentials["REQUEST_URL"],
+                json=data,
+                headers=headers,
+                timeout=10,
+            )
+
+            response_data = response.json()
+
+            if response.status_code == 200 and response_data.get("status"):
+                return PyKudaResponse(
+                    status_code=200,
+                    data={
+                        "account_number": response_data.get("data").get(
+                            "accountNumber"
+                        ),
+                    },
+                )
+            else:
+                return PyKudaResponse(
+                    status_code=response.status_code, data=response, error=True
+                )
+
+    def update_virtual_account_name_request(self, data: dict) -> PyKudaResponse:
+        """
+        Makes a bill payment using a virtual account.
+
+        Args:
+            data (dict): Request data for the API call.
+
+        Returns:
+            A PyKudaResponse object with the payment reference or an error message.
+        """
+        headers = self.generate_headers()
+
+        if isinstance(headers, requests.models.Response):
+            return PyKudaResponse(status_code=headers.status_code, data=headers)
+        else:
+            response = requests.post(
+                self.credentials["REQUEST_URL"],
+                json=data,
+                headers=headers,
+                timeout=10,
+            )
+
+            response_data = response.json()
+
+            if response.status_code == 200 and response_data.get("status"):
+                return PyKudaResponse(
+                    status_code=200,
+                    data={
+                        "account_number": response_data.get("data").get(
+                            "accountNumber"
+                        ),
+                    },
+                )
+            else:
+                return PyKudaResponse(
+                    status_code=response.status_code, data=response, error=True
+                )
+
+    def retrieve_single_virtual_account_request(self, data: dict) -> PyKudaResponse:
+        """
+        Makes a bill payment using a virtual account.
+
+        Args:
+            data (dict): Request data for the API call.
+
+        Returns:
+            A PyKudaResponse object with the payment reference or an error message.
+        """
+        headers = self.generate_headers()
+
+        if isinstance(headers, requests.models.Response):
+            return PyKudaResponse(status_code=headers.status_code, data=headers)
+        else:
+            response = requests.post(
+                self.credentials["REQUEST_URL"],
+                json=data,
+                headers=headers,
+                timeout=10,
+            )
+
+            response_data = response.json()
+
+            if (
+                response.status_code == 200
+                and response_data.get("status")
+                and response_data.get("data")
+            ):
+                return PyKudaResponse(
+                    status_code=200,
+                    data=response_data.get("data"),
+                )
+            else:
+                return PyKudaResponse(
+                    status_code=response.status_code, data=response, error=True
+                )
+
+    def retrieve_all_virtual_accounts_request(self, data: dict) -> PyKudaResponse:
+        """
+        Makes a bill payment using a virtual account.
+
+        Args:
+            data (dict): Request data for the API call.
+
+        Returns:
+            A PyKudaResponse object with the payment reference or an error message.
+        """
+        headers = self.generate_headers()
+
+        if isinstance(headers, requests.models.Response):
+            return PyKudaResponse(status_code=headers.status_code, data=headers)
+        else:
+            response = requests.post(
+                self.credentials["REQUEST_URL"],
+                json=data,
+                headers=headers,
+                timeout=10,
+            )
+
+            response_data = response.json()
+
+            if (
+                response.status_code == 200
+                and response_data.get("status")
+                and response_data.get("data")
+                and response_data.get("data").get("accounts")
+            ):
+                return PyKudaResponse(
+                    status_code=200,
+                    data=response_data.get("data").get("accounts"),
+                )
+            else:
+                return PyKudaResponse(
+                    status_code=response.status_code, data=response, error=True
+                )

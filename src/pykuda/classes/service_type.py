@@ -328,3 +328,125 @@ class ServiceType(ServiceTypeUtils):
             }
         )
         return self.virtual_account_purchase_bill_request(data)
+
+    def disable_virtual_account(self, tracking_reference: str) -> PyKudaResponse:
+        """
+        Disables a virtual account
+
+        Args:
+            tracking_reference (str): Tracking reference for the virtual account.
+
+        Returns:
+            PyKudaResponse: Response object containing the result of the request.
+        """
+
+        data = self.generate_common_data(
+            ServiceTypeConstants.ADMIN_DISABLE_VIRTUAL_ACCOUNT.value, tracking_reference
+        )
+        return self.disable_virtual_account_request(data)
+
+    def enable_virtual_account(self, tracking_reference: str) -> PyKudaResponse:
+        """
+        Enables a virtual account
+
+        Args:
+            tracking_reference (str): Tracking reference for the virtual account.
+
+        Returns:
+            PyKudaResponse: Response object containing the result of the request.
+        """
+        data = self.generate_common_data(
+            ServiceTypeConstants.ADMIN_ENABLE_VIRTUAL_ACCOUNT.value, tracking_reference
+        )
+        return self.enable_virtual_account_request(data)
+
+    # Virtual account update. According to Kuda, you can only update first name, last name,
+    # and email. You can't update the phone number.
+
+    def retrieve_single_virtual_account(
+        self,
+        tracking_reference: str,
+    ) -> PyKudaResponse:
+        """
+        Retrieves a single virtual acccount
+
+        Args:
+            tracking_reference (str): Tracking reference for the virtual account.
+
+        Returns:
+            PyKudaResponse: Response object containing the result of the request.
+        """
+        data = self.generate_common_data(
+            ServiceTypeConstants.ADMIN_RETRIEVE_SINGLE_VIRTUAL_ACCOUNT.value,
+            tracking_reference,
+        )
+        return self.retrieve_single_virtual_account_request(data)
+
+    def retrieve_all_virtual_accounts(self) -> PyKudaResponse:
+        """
+        Retrieves all virtual accounts
+
+        Returns:
+            PyKudaResponse: Response object containing the result of the request.
+        """
+        data = self.generate_common_data(
+            ServiceTypeConstants.ADMIN_VIRTUAL_ACCOUNTS.value
+        )
+        data["data"] = {"PageSize": "30", "PageNumber": "1"}
+
+        return self.retrieve_all_virtual_accounts_request(data)
+
+    # To prevent errors, kuda recommends not to update email and names in the same request
+    # So both methods are seperated
+    def update_virtual_account_name(
+        self,
+        tracking_reference: str,
+        first_name: str,
+        last_name: str,
+    ) -> PyKudaResponse:
+        """
+        Update a virtual accounts name
+
+        Args:
+            tracking_reference (str): Tracking reference for the virtual account.
+            first_name (str): new First name that the account should be updated to.
+            last_name (str): new Last name that the account should be updated to.
+
+        Returns:
+            PyKudaResponse: Response object containing the result of the request.
+        """
+        data = self.generate_common_data(
+            ServiceTypeConstants.ADMIN_UPDATE_VIRTUAL_ACCOUNT.value, tracking_reference
+        )
+        data["Data"].update(
+            {
+                "lastName": first_name,
+                "firstName": last_name,
+            }
+        )
+        return self.update_virtual_account_name_request(data)
+
+    def update_virtual_account_email(
+        self,
+        tracking_reference: str,
+        email: str,
+    ) -> PyKudaResponse:
+        """
+        Updates a virtual account email
+
+        Args:
+            tracking_reference (str): Tracking reference for the virtual account.
+            email (str): new email that the account should be updated to.
+
+        Returns:
+            PyKudaResponse: Response object containing the result of the request.
+        """
+        data = self.generate_common_data(
+            ServiceTypeConstants.ADMIN_UPDATE_VIRTUAL_ACCOUNT.value, tracking_reference
+        )
+        data["Data"].update(
+            {
+                "email": email,
+            }
+        )
+        return self.update_virtual_account_name_request(data)
