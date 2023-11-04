@@ -368,12 +368,10 @@ class ServiceType(ServiceTypeUtils):
         tracking_reference: str,
     ) -> PyKudaResponse:
         """
-        Enables a virtual account
+        Retrieves a single virtual acccount
 
         Args:
             tracking_reference (str): Tracking reference for the virtual account.
-            first_name (str): new First name that the account should be updated to.
-            last_name (str): new Last name that the account should be updated to.
 
         Returns:
             PyKudaResponse: Response object containing the result of the request.
@@ -386,12 +384,7 @@ class ServiceType(ServiceTypeUtils):
 
     def retrieve_all_virtual_accounts(self) -> PyKudaResponse:
         """
-        Enables a virtual account
-
-        Args:
-            tracking_reference (str): Tracking reference for the virtual account.
-            first_name (str): new First name that the account should be updated to.
-            last_name (str): new Last name that the account should be updated to.
+        Retrieves all virtual accounts
 
         Returns:
             PyKudaResponse: Response object containing the result of the request.
@@ -412,7 +405,7 @@ class ServiceType(ServiceTypeUtils):
         last_name: str,
     ) -> PyKudaResponse:
         """
-        Enables a virtual account
+        Update a virtual accounts name
 
         Args:
             tracking_reference (str): Tracking reference for the virtual account.
@@ -439,7 +432,7 @@ class ServiceType(ServiceTypeUtils):
         email: str,
     ) -> PyKudaResponse:
         """
-        Enables a virtual account
+        Updates a virtual account email
 
         Args:
             tracking_reference (str): Tracking reference for the virtual account.
