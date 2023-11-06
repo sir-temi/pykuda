@@ -48,8 +48,6 @@ Every Python request is filtered, and the resulting PyKudaResponse object contai
 
 ### Successful request
 
-Here is a view that retrieves
-
 ```python
 from rest_framework.response import Response
 from rest_framework.views import APIView
