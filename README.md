@@ -106,7 +106,7 @@ class BanksListView(APIView):
         )
 ```
 
-As seen above, the PyKudaResponse returns the status_code, data and error; the data is an already a filtered data of which you can access directly by executing `response.data`.
+As seen above, the PyKudaResponse returns the `status_code`, `data` and `error`; the data attribute already contains the appropriate data received from Kuda API. You can access the Kuda response data by executing `response.data`.
 
 ### Failed request
 
@@ -141,7 +141,7 @@ response = kuda.virtual_account_purchase_bill(
 print(response)
 # PyKudaResponse(status_code=200, data=<Response [200]>, error=True)
 print(response.data.text)
-'{"message":"Invalid Virtual Account.","status":false,"data":null,"statusCode":"k-OAPI-07"}'
+# '{"message":"Invalid Virtual Account.","status":false,"data":null,"statusCode":"k-OAPI-07"}'
 ```
 
 As shown in the [Successful request](#successful-request) section, it is recommended to use response.error to ensure that the request was successful.
@@ -383,7 +383,7 @@ response = kuda.retrieve_single_virtual_account(
 )
 print(response.data)
 # {
-# 	"accountNumber": "2504205433",
+# 	  "accountNumber": "2504205433",
 #     "email": "08011122233",
 #     "phoneNumber": "08011111111",
 #     "lastName": "Lagbaja",
