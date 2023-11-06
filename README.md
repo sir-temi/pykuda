@@ -49,11 +49,13 @@ Every Python request is filtered, and the resulting PyKudaResponse object contai
 ### Successful request
 
 ```python
+import logging
+
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+
 from pykuda.pykuda import PyKuda, PyKudaResponse
-import logging
 
 
 logger = logging.getLogger(__name__)
