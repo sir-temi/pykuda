@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 import secrets
 
 from pykuda.classes.py_kuda_response import PyKudaResponse
@@ -6,7 +5,6 @@ from pykuda.constants import ServiceTypeConstants
 from pykuda.service_type_utils import ServiceTypeUtils
 
 
-@dataclass
 class ServiceType(ServiceTypeUtils):
     """
     This class handles all the Service functionalities, it

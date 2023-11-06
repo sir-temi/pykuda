@@ -1,11 +1,9 @@
-from dataclasses import dataclass
 import requests
 
 from pykuda.classes.py_kuda_response import PyKudaResponse
 from pykuda.utils import Utils
 
 
-@dataclass
 class ServiceTypeUtils(Utils):
     """
     A utility class responsible for generating headers and making API calls to the respective endpoints for KUDA services.
