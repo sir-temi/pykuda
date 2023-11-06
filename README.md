@@ -48,19 +48,25 @@ print(response)
 
 In case the request wasn't successful, the PyKudaResponse will be different. The data will be a `Response` Object which you can check to investigate the cause (Maybe your Token is not correct, or the URL, or something else). Now, let's say the API Key in the .env file was not a correct one and a request was made, the example below shows the response to expect.
 
-```shell
->>> response
->>> PyKudaResponse(status_code=401, data=<Response [401]>, error=True)
->>>
->>> response.data.text # 'Invalid Credentials'
->>> response.data.reason # 'Unauthorized'
+```python
+print(response)
+# PyKudaResponse(status_code=401, data=<Response [401]>, error=True)
+
+print(response.data.text)
+# 'Invalid Credentials'
+
+print(response.data.reason)
+# 'Unauthorized'
 ```
 
 ### Understanding PyKudaResponse
 
-Every response from `Kuda` is improved by `PyKuda`, and the resulting `PyKudaResponse` object contains three attributes: `status_code`, `data`, and `error`. It's crucial to consistently check the `error` attribute to confirm the success of the method.
+With `PyKuda`, every interaction with the Kuda API is elevated through the `PyKudaResponse` object, enriching the responses from Kuda. This custom response encapsulates three key attributes: `status_code`, `data`, and `error`.
+
+`PyKudaResponse` serves as a tailored feedback mechanism provided by PyKuda. Its primary purpose is to enhance the interpretation of Kuda's responses and reliably confirm the success of a request. In cases where the request encounters issues, the `error` attribute is set to `True`, signaling that an error has occurred during the interaction. This nuanced approach ensures a more robust and dependable handling of API responses. It is imperative to systematically inspect the `error` attribute to ascertain the success of the method.
 
 **Example:**
+This illustrative example outlines a conventional approach to leverage PyKuda for verifying the success of a request.
 
 ```python
 import logging
