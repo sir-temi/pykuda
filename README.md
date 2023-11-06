@@ -30,7 +30,9 @@ MAIN_ACCOUNT_NUMBER="Your main Kuda account number"
 
 NB: Please make sure you do not push your `.env` file to public repositories as the details here are confidential.
 
-### Using PyKuda
+## Using PyKuda
+
+### Successful request
 
 ```python
 from pykuda.pykuda import PyKuda
@@ -42,11 +44,23 @@ print(response)
 # PyKudaResponse(status_code=200, data=[list_of_banks], error=False)
 ```
 
+### Failed request
+
+In case the request wasn't successful, the PyKudaResponse will be different. The data will be a `Response` Object which you can check to investigate the cause (Maybe your Token is not correct, or the URL, or something else). Now, let's say the API Key in the .env file was not a correct one and a request was made, the example below shows the response to expect.
+
+```shell
+>>> response
+>>> PyKudaResponse(status_code=401, data=<Response [401]>, error=True)
+>>>
+>>> response.data.text # 'Invalid Credentials'
+>>> response.data.reason # 'Unauthorized'
+```
+
 ### Understanding PyKudaResponse
 
-Every Python request is filtered, and the resulting PyKudaResponse object contains three attributes: `status_code`, `data`, and `error`. It's crucial to consistently check the `error` attribute to confirm the success of the method.
+Every response from `Kuda` is improved by `PyKuda`, and the resulting `PyKudaResponse` object contains three attributes: `status_code`, `data`, and `error`. It's crucial to consistently check the `error` attribute to confirm the success of the method.
 
-### Successful request
+**Example:**
 
 ```python
 import logging
@@ -108,18 +122,6 @@ class BanksListView(APIView):
 
 As seen above, the PyKudaResponse returns the `status_code`, `data` and `error`; the data attribute already contains the appropriate data received from Kuda API. You can access the Kuda response data by executing `response.data`.
 
-### Failed request
-
-In case the request wasn't successful, the PyKudaResponse will be different. The data will be a `Response` Object which you can check to investigate the cause (Maybe your Token is not correct, or the URL, or something else). Now, let's say the API Key in the .env file was not a correct one and a request was made, the example below shows the response to expect.
-
-```shell
->>> response
->>> PyKudaResponse(status_code=401, data=<Response [401]>, error=True)
->>>
->>> response.data.text # 'Invalid Credentials'
->>> response.data.reason # 'Unauthorized'
-```
-
 #### Important Note on Error Handling:
 
 When interacting with the Kuda API, it is not recommended to rely solely on the response.status_code for error handling. The Kuda API may return a 200 status code even in cases where there are errors or typos in the request parameters.
@@ -128,14 +130,14 @@ For instance, when attempting to purchase airtime, passing an invalid tracking_r
 
 To ensure robust error handling, it is crucial to examine the response data and utilize the error attribute in the PyKudaResponse object. `PyKuda` intelligently checks that if the request is not successful and was not processed by Kuda, the `response.error` will be `True`. This attribute indicates whether the API request was successful or if there were issues.
 
-Example:
+**Example:**
 
 ```python
 response = kuda.virtual_account_purchase_bill(
-    amount='10000', # Invalid amount for airtime purchase
+    amount='10000',
     kuda_biller_item_identifier="KD-VTU-MTNNG",
     customer_identifier="08030001234",
-    tracking_reference="invalid_tracking_reference",
+    tracking_reference="invalid_tracking_reference", # Invalid tracking_reference
 )
 
 print(response)
@@ -404,7 +406,7 @@ response = kuda.retrieve_all_virtual_accounts()
 print(response.data)
 # [
     # {
-    # 	"accountNumber": "2504205433",
+    # 	  "accountNumber": "2504205433",
     #     "email": "08011122233",
     #     "phoneNumber": "08011111111",
     #     "lastName": "Lagbaja",
