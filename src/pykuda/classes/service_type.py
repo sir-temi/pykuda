@@ -13,15 +13,15 @@ class ServiceType(ServiceTypeUtils):
     has methods that handle each type of transaction.
     """
 
-    def bank_list(self) -> PyKudaResponse:
+    def banks_list(self) -> PyKudaResponse:
         """
         Get the list of banks.
 
         Returns:
             PyKudaResponse: Response object containing the result of the request.
         """
-        data = self.generate_common_data(ServiceTypeConstants.BANK_LIST.value)
-        return self.bank_list_request(data)
+        data = self._generate_common_data(ServiceTypeConstants.BANK_LIST.value)
+        return self._banks_list_request(data)
 
     def create_virtual_account(
         self,
@@ -46,7 +46,7 @@ class ServiceType(ServiceTypeUtils):
         Returns:
             PyKudaResponse: Response object containing the result of the request.
         """
-        data = self.generate_common_data(
+        data = self._generate_common_data(
             ServiceTypeConstants.ADMIN_CREATE_VIRTUAL_ACCOUNT.value
         )
         data["Data"].update(
@@ -61,7 +61,7 @@ class ServiceType(ServiceTypeUtils):
             }
         )
 
-        return self.create_virtual_account_request(data)
+        return self._create_virtual_account_request(data)
 
     def virtual_account_balance(self, tracking_reference: str) -> PyKudaResponse:
         """
@@ -73,11 +73,11 @@ class ServiceType(ServiceTypeUtils):
         Returns:
             PyKudaResponse: Response object containing the result of the request.
         """
-        data = self.generate_common_data(
+        data = self._generate_common_data(
             ServiceTypeConstants.RETRIEVE_VIRTUAL_ACCOUNT_BALANCE.value
         )
         data["Data"].update({"trackingReference": tracking_reference})
-        return self.virtual_account_balance_request(data)
+        return self._virtual_account_balance_request(data)
 
     def main_account_balance(self) -> PyKudaResponse:
         """
@@ -86,10 +86,10 @@ class ServiceType(ServiceTypeUtils):
         Returns:
             PyKudaResponse: Response object containing the result of the request.
         """
-        data = self.generate_common_data(
+        data = self._generate_common_data(
             ServiceTypeConstants.ADMIN_RETRIEVE_MAIN_ACCOUNT_BALANCE.value
         )
-        return self.main_account_balance_request(data)
+        return self._main_account_balance_request(data)
 
     def fund_virtual_account(
         self, tracking_reference: str, amount: str, narration: str
@@ -105,11 +105,11 @@ class ServiceType(ServiceTypeUtils):
         Returns:
             PyKudaResponse: Response object containing the result of the request.
         """
-        data = self.generate_common_data(
+        data = self._generate_common_data(
             ServiceTypeConstants.FUND_VIRTUAL_ACCOUNT.value, tracking_reference
         )
         data["Data"].update({"amount": amount, "narration": narration})
-        return self.fund_virtual_account_request(data)
+        return self._fund_virtual_account_request(data)
 
     def withdraw_from_virtual_account(
         self, tracking_reference: str, amount: str, narration: str
@@ -125,11 +125,11 @@ class ServiceType(ServiceTypeUtils):
         Returns:
             PyKudaResponse: Response object containing the result of the request.
         """
-        data = self.generate_common_data(
+        data = self._generate_common_data(
             ServiceTypeConstants.WITHDRAW_VIRTUAL_ACCOUNT.value, tracking_reference
         )
         data["Data"].update({"amount": int(amount), "narration": narration})
-        return self.withdraw_from_virtual_account_request(data)
+        return self._withdraw_from_virtual_account_request(data)
 
     def confirm_transfer_recipient(
         self,
@@ -149,7 +149,7 @@ class ServiceType(ServiceTypeUtils):
         Returns:
             PyKudaResponse: Response object containing the result of the request.
         """
-        data = self.generate_common_data(ServiceTypeConstants.NAME_ENQUIRY.value)
+        data = self._generate_common_data(ServiceTypeConstants.NAME_ENQUIRY.value)
         data["Data"].update(
             {
                 "beneficiaryAccountNumber": beneficiary_account_number,
@@ -160,7 +160,7 @@ class ServiceType(ServiceTypeUtils):
                 "isRequestFromVirtualAccount": bool(tracking_reference),
             }
         )
-        return self.confirm_transfer_recipient_request(data)
+        return self._confirm_transfer_recipient_request(data)
 
     def send_funds_from_main_account(
         self,
@@ -177,7 +177,7 @@ class ServiceType(ServiceTypeUtils):
         Send funds from the main account to another account.
 
         Args:
-            client_account_number (str): Account number of the sender.
+            client_account_number (str): Your Kuda Business account number.
             beneficiary_bank_code (str): Bank code of the recipient's bank.
             beneficiary_account_number (str): Account number of the recipient.
             beneficiary_name (str): Name of the recipient.
@@ -189,7 +189,7 @@ class ServiceType(ServiceTypeUtils):
         Returns:
             PyKudaResponse: Response object containing the result of the request.
         """
-        data = self.generate_common_data(
+        data = self._generate_common_data(
             ServiceTypeConstants.SINGLE_FUND_TRANSFER.value
         )
         data["Data"].update(
@@ -206,7 +206,7 @@ class ServiceType(ServiceTypeUtils):
                 "clientFeeCharge": 0,
             }
         )
-        return self.send_funds_from_main_account_request(data)
+        return self._send_funds_from_main_account_request(data)
 
     def send_funds_from_virtual_account(
         self,
@@ -235,7 +235,7 @@ class ServiceType(ServiceTypeUtils):
         Returns:
             PyKudaResponse: Response object containing the result of the request.
         """
-        data = self.generate_common_data(
+        data = self._generate_common_data(
             ServiceTypeConstants.VIRTUAL_ACCOUNT_FUND_TRANSFER.value, tracking_reference
         )
         data["Data"].update(
@@ -250,7 +250,7 @@ class ServiceType(ServiceTypeUtils):
                 "clientFeeCharge": 0,
             }
         )
-        return self.send_funds_from_virtual_account_request(data)
+        return self._send_funds_from_virtual_account_request(data)
 
     def billers(
         self,
@@ -265,9 +265,11 @@ class ServiceType(ServiceTypeUtils):
         Returns:
             PyKudaResponse: Response object containing the result of the request.
         """
-        data = self.generate_common_data(ServiceTypeConstants.GET_BILLERS_BY_TYPE.value)
+        data = self._generate_common_data(
+            ServiceTypeConstants.GET_BILLERS_BY_TYPE.value
+        )
         data["Data"].update({"BillTypeName": biller_type})
-        return self.billers_request(data)
+        return self._billers_request(data)
 
     def verify_bill_customer(
         self,
@@ -284,7 +286,7 @@ class ServiceType(ServiceTypeUtils):
         Returns:
             PyKudaResponse: Response object containing the result of the request.
         """
-        data = self.generate_common_data(
+        data = self._generate_common_data(
             ServiceTypeConstants.VERIFY_BILL_CUSTOMER.value
         )
         data["Data"].update(
@@ -293,7 +295,7 @@ class ServiceType(ServiceTypeUtils):
                 "CustomerIdentification": customer_identifier,
             }
         )
-        return self.verify_bill_customer_request(data)
+        return self._verify_bill_customer_request(data)
 
     def virtual_account_purchase_bill(
         self,
@@ -316,7 +318,7 @@ class ServiceType(ServiceTypeUtils):
         Returns:
             PyKudaResponse: Response object containing the result of the request.
         """
-        data = self.generate_common_data(
+        data = self._generate_common_data(
             ServiceTypeConstants.PURCHASE_BILL.value, tracking_reference
         )
         data["Data"].update(
@@ -327,7 +329,7 @@ class ServiceType(ServiceTypeUtils):
                 "CustomerIdentifier": customer_identifier,
             }
         )
-        return self.virtual_account_purchase_bill_request(data)
+        return self._virtual_account_purchase_bill_request(data)
 
     def disable_virtual_account(self, tracking_reference: str) -> PyKudaResponse:
         """
@@ -340,10 +342,10 @@ class ServiceType(ServiceTypeUtils):
             PyKudaResponse: Response object containing the result of the request.
         """
 
-        data = self.generate_common_data(
+        data = self._generate_common_data(
             ServiceTypeConstants.ADMIN_DISABLE_VIRTUAL_ACCOUNT.value, tracking_reference
         )
-        return self.disable_virtual_account_request(data)
+        return self._disable_virtual_account_request(data)
 
     def enable_virtual_account(self, tracking_reference: str) -> PyKudaResponse:
         """
@@ -355,10 +357,10 @@ class ServiceType(ServiceTypeUtils):
         Returns:
             PyKudaResponse: Response object containing the result of the request.
         """
-        data = self.generate_common_data(
+        data = self._generate_common_data(
             ServiceTypeConstants.ADMIN_ENABLE_VIRTUAL_ACCOUNT.value, tracking_reference
         )
-        return self.enable_virtual_account_request(data)
+        return self._enable_virtual_account_request(data)
 
     # Virtual account update. According to Kuda, you can only update first name, last name,
     # and email. You can't update the phone number.
@@ -376,11 +378,11 @@ class ServiceType(ServiceTypeUtils):
         Returns:
             PyKudaResponse: Response object containing the result of the request.
         """
-        data = self.generate_common_data(
+        data = self._generate_common_data(
             ServiceTypeConstants.ADMIN_RETRIEVE_SINGLE_VIRTUAL_ACCOUNT.value,
             tracking_reference,
         )
-        return self.retrieve_single_virtual_account_request(data)
+        return self._retrieve_single_virtual_account_request(data)
 
     def retrieve_all_virtual_accounts(self) -> PyKudaResponse:
         """
@@ -389,12 +391,12 @@ class ServiceType(ServiceTypeUtils):
         Returns:
             PyKudaResponse: Response object containing the result of the request.
         """
-        data = self.generate_common_data(
+        data = self._generate_common_data(
             ServiceTypeConstants.ADMIN_VIRTUAL_ACCOUNTS.value
         )
         data["data"] = {"PageSize": "30", "PageNumber": "1"}
 
-        return self.retrieve_all_virtual_accounts_request(data)
+        return self._retrieve_all_virtual_accounts_request(data)
 
     # To prevent errors, kuda recommends not to update email and names in the same request
     # So both methods are seperated
@@ -415,7 +417,7 @@ class ServiceType(ServiceTypeUtils):
         Returns:
             PyKudaResponse: Response object containing the result of the request.
         """
-        data = self.generate_common_data(
+        data = self._generate_common_data(
             ServiceTypeConstants.ADMIN_UPDATE_VIRTUAL_ACCOUNT.value, tracking_reference
         )
         data["Data"].update(
@@ -424,7 +426,7 @@ class ServiceType(ServiceTypeUtils):
                 "firstName": last_name,
             }
         )
-        return self.update_virtual_account_name_request(data)
+        return self._update_virtual_account_info_request(data)
 
     def update_virtual_account_email(
         self,
@@ -441,7 +443,7 @@ class ServiceType(ServiceTypeUtils):
         Returns:
             PyKudaResponse: Response object containing the result of the request.
         """
-        data = self.generate_common_data(
+        data = self._generate_common_data(
             ServiceTypeConstants.ADMIN_UPDATE_VIRTUAL_ACCOUNT.value, tracking_reference
         )
         data["Data"].update(
@@ -449,4 +451,4 @@ class ServiceType(ServiceTypeUtils):
                 "email": email,
             }
         )
-        return self.update_virtual_account_name_request(data)
+        return self._update_virtual_account_info_request(data)

@@ -21,7 +21,7 @@ class ServiceTypeUtils(Utils):
 
     # Account HTTP requests
 
-    def bank_list_request(self, data: dict) -> PyKudaResponse:
+    def _banks_list_request(self, data: dict) -> PyKudaResponse:
         """
         Retrieves a list of Nigerian banks.
 
@@ -31,7 +31,7 @@ class ServiceTypeUtils(Utils):
         Returns:
             A PyKudaResponse object with the list of banks or an error message.
         """
-        headers = self.generate_headers()
+        headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
             return PyKudaResponse(status_code=headers.status_code, data=headers)
@@ -58,7 +58,7 @@ class ServiceTypeUtils(Utils):
                     status_code=response.status_code, data=response, error=True
                 )
 
-    def create_virtual_account_request(self, data: dict) -> PyKudaResponse:
+    def _create_virtual_account_request(self, data: dict) -> PyKudaResponse:
         """
         Function responsible for creating a virtual account.
 
@@ -68,7 +68,7 @@ class ServiceTypeUtils(Utils):
         Returns:
             PyKudaResponse: Response object with the virtual account details or an error message.
         """
-        headers = self.generate_headers()
+        headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
             return PyKudaResponse(status_code=headers.status_code, data=headers)
@@ -99,7 +99,7 @@ class ServiceTypeUtils(Utils):
                     status_code=response.status_code, data=response, error=True
                 )
 
-    def virtual_account_balance_request(self, data: dict) -> PyKudaResponse:
+    def _virtual_account_balance_request(self, data: dict) -> PyKudaResponse:
         """
         Retrieves the balance of a virtual account.
 
@@ -109,7 +109,7 @@ class ServiceTypeUtils(Utils):
         Returns:
             A PyKudaResponse object with the account balance details or an error message.
         """
-        headers = self.generate_headers()
+        headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
             return PyKudaResponse(status_code=headers.status_code, data=headers)
@@ -137,7 +137,7 @@ class ServiceTypeUtils(Utils):
                     status_code=response.status_code, data=response, error=True
                 )
 
-    def main_account_balance_request(self, data: dict) -> PyKudaResponse:
+    def _main_account_balance_request(self, data: dict) -> PyKudaResponse:
         """
         Retrieves the total balance of the main account.
 
@@ -147,7 +147,7 @@ class ServiceTypeUtils(Utils):
         Returns:
             A PyKudaResponse object with the main account balance details or an error message.
         """
-        headers = self.generate_headers()
+        headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
             return PyKudaResponse(status_code=headers.status_code, data=headers)
@@ -175,7 +175,7 @@ class ServiceTypeUtils(Utils):
                     status_code=response.status_code, data=response, error=True
                 )
 
-    def fund_virtual_account_request(self, data: dict) -> PyKudaResponse:
+    def _fund_virtual_account_request(self, data: dict) -> PyKudaResponse:
         """
         Funds a virtual account from the main Kuda account.
 
@@ -185,7 +185,7 @@ class ServiceTypeUtils(Utils):
         Returns:
             A PyKudaResponse object with the transaction reference or an error message.
         """
-        headers = self.generate_headers()
+        headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
             return PyKudaResponse(status_code=headers.status_code, data=headers)
@@ -213,7 +213,7 @@ class ServiceTypeUtils(Utils):
                     status_code=response.status_code, data=response, error=True
                 )
 
-    def withdraw_from_virtual_account_request(self, data: dict) -> PyKudaResponse:
+    def _withdraw_from_virtual_account_request(self, data: dict) -> PyKudaResponse:
         """
         Withdraws funds from a virtual account and deposits to another virtual account.
 
@@ -223,7 +223,7 @@ class ServiceTypeUtils(Utils):
         Returns:
             A PyKudaResponse object with the transaction reference or an error message.
         """
-        headers = self.generate_headers()
+        headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
             return PyKudaResponse(status_code=headers.status_code, data=headers)
@@ -251,7 +251,7 @@ class ServiceTypeUtils(Utils):
                     status_code=response.status_code, data=response, error=True
                 )
 
-    def confirm_transfer_recipient_request(self, data: dict) -> PyKudaResponse:
+    def _confirm_transfer_recipient_request(self, data: dict) -> PyKudaResponse:
         """
         Confirms that a recipient's information is correct.
 
@@ -261,7 +261,7 @@ class ServiceTypeUtils(Utils):
         Returns:
             A PyKudaResponse object with the recipient's information or an error message.
         """
-        headers = self.generate_headers()
+        headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
             return PyKudaResponse(status_code=headers.status_code, data=headers)
@@ -303,7 +303,7 @@ class ServiceTypeUtils(Utils):
                     status_code=response.status_code, data=response, error=True
                 )
 
-    def send_funds_from_main_account_request(self, data: dict) -> PyKudaResponse:
+    def _send_funds_from_main_account_request(self, data: dict) -> PyKudaResponse:
         """
         Sends funds from the main account.
 
@@ -313,7 +313,7 @@ class ServiceTypeUtils(Utils):
         Returns:
             A PyKudaResponse object with the transaction reference or an error message.
         """
-        headers = self.generate_headers()
+        headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
             return PyKudaResponse(status_code=headers.status_code, data=headers)
@@ -346,7 +346,7 @@ class ServiceTypeUtils(Utils):
                     status_code=response.status_code, data=response, error=True
                 )
 
-    def send_funds_from_virtual_account_request(self, data: dict) -> PyKudaResponse:
+    def _send_funds_from_virtual_account_request(self, data: dict) -> PyKudaResponse:
         """
         Sends funds from a virtual account.
 
@@ -356,7 +356,7 @@ class ServiceTypeUtils(Utils):
         Returns:
             A PyKudaResponse object with the transaction reference or an error message.
         """
-        headers = self.generate_headers()
+        headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
             return PyKudaResponse(status_code=headers.status_code, data=headers)
@@ -391,7 +391,7 @@ class ServiceTypeUtils(Utils):
 
     # Bill Payments
 
-    def billers_request(self, data: dict) -> PyKudaResponse:
+    def _billers_request(self, data: dict) -> PyKudaResponse:
         """
         Gets billers.
 
@@ -401,7 +401,7 @@ class ServiceTypeUtils(Utils):
         Returns:
             A PyKudaResponse object with the list of billers or an error message.
         """
-        headers = self.generate_headers()
+        headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
             return PyKudaResponse(status_code=headers.status_code, data=headers)
@@ -423,16 +423,14 @@ class ServiceTypeUtils(Utils):
             ):
                 return PyKudaResponse(
                     status_code=200,
-                    data={
-                        "billers": response_data.get("data").get("billers"),
-                    },
+                    data=response_data.get("data").get("billers"),
                 )
             else:
                 return PyKudaResponse(
                     status_code=response.status_code, data=response, error=True
                 )
 
-    def verify_bill_customer_request(self, data: dict) -> PyKudaResponse:
+    def _verify_bill_customer_request(self, data: dict) -> PyKudaResponse:
         """
         Verifies bill information.
 
@@ -442,7 +440,7 @@ class ServiceTypeUtils(Utils):
         Returns:
             A PyKudaResponse object with the customer's name or an error message.
         """
-        headers = self.generate_headers()
+        headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
             return PyKudaResponse(status_code=headers.status_code, data=headers)
@@ -465,7 +463,7 @@ class ServiceTypeUtils(Utils):
                 return PyKudaResponse(
                     status_code=200,
                     data={
-                        "customerName": response_data.get("data").get("customerName"),
+                        "customer_name": response_data.get("data").get("customerName"),
                     },
                 )
             else:
@@ -473,7 +471,7 @@ class ServiceTypeUtils(Utils):
                     status_code=response.status_code, data=response, error=True
                 )
 
-    def virtual_account_purchase_bill_request(self, data: dict) -> PyKudaResponse:
+    def _virtual_account_purchase_bill_request(self, data: dict) -> PyKudaResponse:
         """
         Makes a bill payment using a virtual account.
 
@@ -483,7 +481,7 @@ class ServiceTypeUtils(Utils):
         Returns:
             A PyKudaResponse object with the payment reference or an error message.
         """
-        headers = self.generate_headers()
+        headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
             return PyKudaResponse(status_code=headers.status_code, data=headers)
@@ -514,7 +512,7 @@ class ServiceTypeUtils(Utils):
                     status_code=response.status_code, data=response, error=True
                 )
 
-    def disable_virtual_account_request(self, data: dict) -> PyKudaResponse:
+    def _disable_virtual_account_request(self, data: dict) -> PyKudaResponse:
         """
         Makes a bill payment using a virtual account.
 
@@ -524,7 +522,7 @@ class ServiceTypeUtils(Utils):
         Returns:
             A PyKudaResponse object with the payment reference or an error message.
         """
-        headers = self.generate_headers()
+        headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
             return PyKudaResponse(status_code=headers.status_code, data=headers)
@@ -552,7 +550,7 @@ class ServiceTypeUtils(Utils):
                     status_code=response.status_code, data=response, error=True
                 )
 
-    def enable_virtual_account_request(self, data: dict) -> PyKudaResponse:
+    def _enable_virtual_account_request(self, data: dict) -> PyKudaResponse:
         """
         Makes a bill payment using a virtual account.
 
@@ -562,7 +560,7 @@ class ServiceTypeUtils(Utils):
         Returns:
             A PyKudaResponse object with the payment reference or an error message.
         """
-        headers = self.generate_headers()
+        headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
             return PyKudaResponse(status_code=headers.status_code, data=headers)
@@ -590,7 +588,7 @@ class ServiceTypeUtils(Utils):
                     status_code=response.status_code, data=response, error=True
                 )
 
-    def update_virtual_account_name_request(self, data: dict) -> PyKudaResponse:
+    def _update_virtual_account_info_request(self, data: dict) -> PyKudaResponse:
         """
         Makes a bill payment using a virtual account.
 
@@ -600,7 +598,7 @@ class ServiceTypeUtils(Utils):
         Returns:
             A PyKudaResponse object with the payment reference or an error message.
         """
-        headers = self.generate_headers()
+        headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
             return PyKudaResponse(status_code=headers.status_code, data=headers)
@@ -628,7 +626,7 @@ class ServiceTypeUtils(Utils):
                     status_code=response.status_code, data=response, error=True
                 )
 
-    def retrieve_single_virtual_account_request(self, data: dict) -> PyKudaResponse:
+    def _retrieve_single_virtual_account_request(self, data: dict) -> PyKudaResponse:
         """
         Makes a bill payment using a virtual account.
 
@@ -638,7 +636,7 @@ class ServiceTypeUtils(Utils):
         Returns:
             A PyKudaResponse object with the payment reference or an error message.
         """
-        headers = self.generate_headers()
+        headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
             return PyKudaResponse(status_code=headers.status_code, data=headers)
@@ -666,7 +664,7 @@ class ServiceTypeUtils(Utils):
                     status_code=response.status_code, data=response, error=True
                 )
 
-    def retrieve_all_virtual_accounts_request(self, data: dict) -> PyKudaResponse:
+    def _retrieve_all_virtual_accounts_request(self, data: dict) -> PyKudaResponse:
         """
         Makes a bill payment using a virtual account.
 
@@ -676,7 +674,7 @@ class ServiceTypeUtils(Utils):
         Returns:
             A PyKudaResponse object with the payment reference or an error message.
         """
-        headers = self.generate_headers()
+        headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
             return PyKudaResponse(status_code=headers.status_code, data=headers)

@@ -43,7 +43,7 @@ class Utils:
 
     credentials = None
 
-    def get_token(self) -> str:
+    def _get_token(self) -> str:
         """
         Generates a token from KUDA's TOKEN URL.
 
@@ -61,14 +61,14 @@ class Utils:
             timeout=10,
         )
 
-    def generate_headers(self) -> requests.models.Response | dict:
+    def _generate_headers(self) -> requests.models.Response | dict:
         """
         Generates headers for requests.
 
         Returns:
             A dictionary containing headers for API requests or a response object.
         """
-        response = self.get_token()
+        response = self._get_token()
 
         return (
             {
@@ -79,7 +79,7 @@ class Utils:
             else response
         )
 
-    def generate_common_data(
+    def _generate_common_data(
         self, service_type: str, tracking_reference: str | None = None
     ):
         """
