@@ -1,6 +1,7 @@
 # PyKuda
 
-A python package that simplifies using the Kuda Bank Api. While the Kuda Bank Api is quite easy to use, this python package makes it seamless and easy to enjoy the Kuda beautiful Open Api. PyKuda uses Kuda's Api v2 which uses an API key and Token for authentication.
+[![Downloads](https://static.pepy.tech/badge/pykuda)](https://pepy.tech/project/pykuda) [![Downloads](https://static.pepy.tech/badge/pykuda/month)](https://pepy.tech/project/pykuda) [![Downloads](https://static.pepy.tech/badge/pykuda/week)](https://pepy.tech/project/pykuda)
+A python package that simplifies using the Kuda Bank API. While the Kuda Bank Api is quite easy to use, this python package makes it seamless and easy to enjoy the Kuda beautiful Open Api. PyKuda uses Kuda's Api v2 which uses an API key and Token for authentication.
 
 ## Getting started
 
@@ -34,51 +35,393 @@ NB: Please make sure you do not push your `.env` file to public repositories as 
 from pykuda.pykuda import PyKuda
 
 kuda = PyKuda()
-response = kuda.bank_list()
-
-# response contains PyKudaResponse which has the status code and data.
+response = kuda.banks_list()
+print(response)
+# Example Response:
+# PyKudaResponse(status_code=200, data=[list_of_banks], error=False)
 ```
 
 ### Understanding PyKudaResponse
 
 Every Python request is filtered, and the resulting PyKudaResponse object contains three attributes: `status_code`, `data`, and `error`. It's crucial to consistently check the `error` attribute to confirm the success of the method.
 
-Users should specifically validate that `error` is `False`. Despite Kuda returning a 200 HTTP response code, potential errors in the operation might exist. For example, when creating a virtual account with incorrect data, Kuda might respond with a 200 but set `status` to `False`. PyKuda handles this intelligently: if a 200 response is received but the `status` is `False`, PyKudaResponse is returned with `error` set to `True`. This mechanism aids in determining the success of the request.
+### Successful request
 
-#### Successful request
+Here is a view that retrieves
 
-Using the response above as an example;
+```python
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from pykuda.pykuda import PyKuda, PyKudaResponse
+import logging
 
-```shell
->>> response
->>> PyKudaResponse(status_code=200, data=[list_of_banks], error=False)
+
+logger = logging.getLogger(__name__)
+
+# Initialize PyKuda instance
+kuda = PyKuda()
+
+class BanksListView(APIView):
+    """
+    API view to retrieve a list of banks.
+    """
+
+    def get(self, request) -> Response:
+        """
+        Handle GET request to retrieve a list of banks.
+
+        Returns:
+            Response: JSON response containing the list of banks or an error message.
+        """
+        # Retrieve list of banks from Kuda API
+        response = kuda.banks_list()
+
+        if not response.error:
+            # The request was successful
+            # Return the list of banks to the frontend
+            return Response(response.data, status=response.status_code)
+        else:
+            # There was an error in the request
+            # Log provider error details
+            self.log_kuda_error(response.data)
+            # Return an error and handle it in the frontend or according to your business model
+            return Response("Your custom error", status="error_code")
+
+    def log_kuda_error(self, error_response: PyKudaResponse) -> None:
+        """
+        Log details of Kuda API error.
+
+        Args:
+            error_response (PyKudaResponse): The PyKudaResponse object containing error details.
+        """
+
+        # Log error details
+        logger.error(
+            f"KUDA ERROR: \n"
+            f"STATUS CODE - {error_response.status_code} \n"
+            f"RESPONSE DATA - {error_response.data} \n"
+            f"ERROR - {error_response.error}"
+        )
 ```
 
-As seen above, the PyKudaResponse returns the status_code, data and error; the data is an already filtered data of which you can access directly by executing `response.data`.
+As seen above, the PyKudaResponse returns the status_code, data and error; the data is an already a filtered data of which you can access directly by executing `response.data`.
 
-#### Failed request
+### Failed request
 
-Incase the request wasn't successful, the PyKudaResponse will be different. The data will be a rRsponse Object which you can check to investigate the cause (Maybe your Token is not correct, or the URL, or something else.). Now, let's say the API Key in the .env file was not a correct one and a request was made, the example below shows the response to expect.
+In case the request wasn't successful, the PyKudaResponse will be different. The data will be a `Response` Object which you can check to investigate the cause (Maybe your Token is not correct, or the URL, or something else). Now, let's say the API Key in the .env file was not a correct one and a request was made, the example below shows the response to expect.
 
 ```shell
 >>> response
 >>> PyKudaResponse(status_code=401, data=<Response [401]>, error=True)
 >>>
->>> respose.data.text # 'Invalid Credentials'
->>> respose.data.reason # 'Unauthorized'
+>>> response.data.text # 'Invalid Credentials'
+>>> response.data.reason # 'Unauthorized'
 ```
+
+#### Important Note on Error Handling:
+
+When interacting with the Kuda API, it is not recommended to rely solely on the response.status_code for error handling. The Kuda API may return a 200 status code even in cases where there are errors or typos in the request parameters.
+
+For instance, when attempting to purchase airtime, passing an invalid tracking_reference will result in a 200 status code from Kuda, but the request will not be processed successfully.
+
+To ensure robust error handling, it is crucial to examine the response data and utilize the error attribute in the PyKudaResponse object. `PyKuda` intelligently checks that if the request is not successful and was not processed by Kuda, the `response.error` will be `True`. This attribute indicates whether the API request was successful or if there were issues.
+
+Example:
+
+```python
+response = kuda.virtual_account_purchase_bill(
+    amount='10000', # Invalid amount for airtime purchase
+    kuda_biller_item_identifier="KD-VTU-MTNNG",
+    customer_identifier="08030001234",
+    tracking_reference="invalid_tracking_reference",
+)
+
+print(response)
+# PyKudaResponse(status_code=200, data=<Response [200]>, error=True)
+print(response.data.text)
+'{"message":"Invalid Virtual Account.","status":false,"data":null,"statusCode":"k-OAPI-07"}'
+```
+
+As shown in the [Successful request](#successful-request) section, it is recommended to use response.error to ensure that the request was successful.
 
 ## What else can PyKuda do?
 
-PyKuda can be used to make other requests also, if you would like to learn more about how to use PyKuda to make other requests, please check the source code. Hopefully, I would be able to improve this documentation to show examples of how it can be used to make other requests. A list of request PyKuda can make are listed below.
+PyKuda can be used to make other requests also. Below are examples of how to use the other methods available in the `ServiceType` class.
 
-`BANK_LIST`, `ADMIN_CREATE_VIRTUAL_ACCOUNT`, `RETRIEVE_VIRTUAL_ACCOUNT_BALANCE`, `ADMIN_RETRIEVE_MAIN_ACCOUNT_BALANCE`, `FUND_VIRTUAL_ACCOUNT`, `WITHDRAW_VIRTUAL_ACCOUNT`, `NAME_ENQUIRY`, `SINGLE_FUND_TRANSFER`, `VIRTUAL_ACCOUNT_FUND_TRANSFER`, `GET_BILLERS_BY_TYPE`, `VERIFY_BILL_CUSTOMER`, `PURCHASE_BILL`, `ADMIN_RETRIEVE_SINGLE_VIRTUAL_ACCOUNT`, `ADMIN_UPDATE_VIRTUAL_ACCOUNT`, `ADMIN_ENABLE_VIRTUAL_ACCOUNT`, `ADMIN_DISABLE_VIRTUAL_ACCOUNT` and `ADMIN_VIRTUAL_ACCOUNTS`.
+### Create Virtual Account
 
-Please refer to the [Kuda's Documentation](https://kudabank.gitbook.io/kudabank/) to read more about these requests.
+```python
+response = kuda.create_virtual_account(
+    first_name="Ogbeni",
+    last_name="Lagbaja",
+    phone_number="08011122233",
+    email="ogbeni@temi.com",
+    middle_name="Middle",
+    business_name="ABC Ltd",
+)
+print(response)
+# Example Response:
+# PyKudaResponse(status_code=200, data=<response_data>, error=False)
+
+print(response.data)
+# {
+#     "account_number": "2000111222", # Newly generated account number from Kuda
+#     "tracking_reference": "trackingReference", # Tracking reference
+# }
+```
+
+### Virtual Account Balance
+
+```python
+response = kuda.virtual_account_balance(tracking_reference="your_tracking_reference")
+
+print(response.data)
+# {
+#     "ledger": "ledgerBalance",
+#     "available": "availableBalance",
+#     "withdrawable": "withdrawableBalance",
+# }
+```
+
+### Main Account Balance
+
+```python
+response = kuda.main_account_balance()
+print(response.data)
+# {
+#     "ledger": "ledgerBalance",
+#     "available": "availableBalance",
+#     "withdrawable": "withdrawableBalance",
+# }
+```
+
+### Fund Virtual Account
+
+```python
+response = kuda.fund_virtual_account(
+    tracking_reference="your_tracking_reference",
+    amount="1000",
+    narration="Funding virtual account",
+)
+print(response.data)
+# {"reference": "transactionReference"}
+```
+
+### Withdraw from Virtual Account
+
+```python
+response = kuda.withdraw_from_virtual_account(
+    tracking_reference="your_tracking_reference",
+    amount="500",
+    narration="Withdrawing from virtual account",
+)
+print(response.data)
+# {"reference": "transactionReference"}
+```
+
+### Confirm Transfer Recipient
+
+```python
+response = kuda.confirm_transfer_recipient(
+    beneficiary_account_number="recipient_account_number",
+    beneficiary_bank_code="recipient_bank_code",
+    tracking_reference="your_tracking_reference",
+)
+print(response.data)
+# {
+#     "beneficiary_account_number":
+#         "beneficiaryAccountNumber"
+#     ),
+#     "beneficiary_name": "beneficiaryName",
+#     "beneficiary_code": "beneficiaryBankCode",
+#     "session_id": "sessionID",
+#     "sender_account": "senderAccountNumber",
+#     "transfer_charge": "transferCharge",
+#     "name_enquiry_id": "nameEnquiryID",
+#     "tracking_reference": "SenderTrackingReference",
+# }
+```
+
+### Send Funds from Main Account
+
+```python
+response = kuda.send_funds_from_main_account(
+    client_account_number="sender_account_number",
+    beneficiary_bank_code="recipient_bank_code",
+    beneficiary_account_number="recipient_account_number",
+    beneficiary_name="Recipient Name",
+    amount="1000",
+    naration="Sending funds",
+    name_enquiry_session_id="name_enquiry_session_id",
+    sender_name="Sender Name",
+)
+print(response.data)
+# {
+#     "transaction_reference": "transactionReference",
+#     "request_reference": "requestReference",
+# }
+```
+
+### Send Funds from Virtual Account
+
+```python
+response = kuda.send_funds_from_virtual_account(
+    tracking_reference="your_tracking_reference",
+    beneficiary_bank_code="recipient_bank_code",
+    beneficiary_account_number="recipient_account_number",
+    beneficiary_name="Recipient Name",
+    amount="1000",
+    naration="Sending funds",
+    name_enquiry_session_id="name_enquiry_session_id",
+    sender_name="Sender Name",
+)
+
+print(response.data)
+# {
+#     "transaction_reference": "transactionReference",
+#     "request_reference": "requestReference",
+# }
+```
+
+### Get Billers
+
+```python
+response = kuda.billers(biller_type="electricity")
+print(response.data)
+# {
+#     "billers": ["list_of_billers"]
+# }
+```
+
+### Verify Bill Customer
+
+```python
+response = kuda.verify_bill_customer(
+    kuda_biller_item_identifier="bill_item_identifier",
+    customer_identifier="customer_identifier",
+)
+print(response.data)
+# {
+#     "customer_name": "customerName,
+# }
+```
+
+### Virtual Account Purchase Bill
+
+```python
+response = kuda.virtual_account_purchase_bill(
+    amount="500",
+    kuda_biller_item_identifier="bill_item_identifier",
+    customer_identifier="customer_identifier",
+    tracking_reference="your_tracking_reference",
+    phone_number="customer_phone_number",
+)
+print(response.data)
+# {
+#     "reference": "reference",
+# }
+```
+
+### Disable Virtual Account
+
+```python
+response = kuda.disable_virtual_account(
+    tracking_reference="your_tracking_reference",
+)
+print(response.data)
+# {
+#     "account_number": "accountNumber",
+# }
+```
+
+### Enable Virtual Account
+
+```python
+response = kuda.enable_virtual_account(
+    tracking_reference="your_tracking_reference",
+)
+print(response.data)
+# {
+#     "account_number": "accountNumber",
+# }
+```
+
+### Update Virtual Account Name
+
+```python
+response = kuda.update_virtual_account_name(
+    tracking_reference="your_tracking_reference",
+    first_name="New_First_Name",
+    last_name="New_Last_Name",
+)
+print(response.data)
+# {
+#     "account_number": "accountNumber"
+# }
+```
+
+### Update Virtual Account Email
+
+```python
+response = kuda.update_virtual_account_email(
+    tracking_reference="your_tracking_reference",
+    email="new_email@example.com",
+)
+print(response.data)
+# {
+#     "account_number": "accountNumber"
+# }
+```
+
+### Retrieve Single Virtual Account
+
+```python
+response = kuda.retrieve_single_virtual_account(
+    tracking_reference="customer_tracking_reference",
+)
+print(response.data)
+# {
+# 	"accountNumber": "2504205433",
+#     "email": "08011122233",
+#     "phoneNumber": "08011111111",
+#     "lastName": "Lagbaja",
+#     "firstName": "Ogbeni",
+#     "middleName": "Middle",
+#     "bussinessName": "ABC LTD",
+#     "accountName": "(ABC LTD)-Lagbaja Ogbeni",
+#     "trackingReference": "tracking_reference",
+#     "creationDate": "2023-04-24T16:35:23.6033333",
+#     "isDeleted": false
+# }
+```
+
+### Retrieve All Virtual Accounts
+
+```python
+response = kuda.retrieve_all_virtual_accounts()
+print(response.data)
+# [
+    # {
+    # 	"accountNumber": "2504205433",
+    #     "email": "08011122233",
+    #     "phoneNumber": "08011111111",
+    #     "lastName": "Lagbaja",
+    #     "firstName": "Ogbeni",
+    #     "middleName": "Middle",
+    #     "bussinessName": "ABC LTD",
+    #     "accountName": "(ABC LTD)-Lagbaja Ogbeni",
+    #     "trackingReference": "tracking_reference",
+    #     "creationDate": "2023-04-24T16:35:23.6033333",
+    #     "isDeleted": false
+    # },
+    # ........
+# ]
+```
 
 ## Contributions & Issues
 
--   If you would like to contribute and improve this package or it's documentation, please feel free to fork the repository, make changes and open a pull request.
+-   If you would like to contribute and improve this package or its documentation, please feel free to fork the repository, make changes and open a pull request.
 -   If you encounter any issue or bugs, please open an issue.
 
 ## Author
