@@ -2,7 +2,7 @@
 
 [![Downloads](https://static.pepy.tech/badge/pykuda)](https://pepy.tech/project/pykuda) [![Downloads](https://static.pepy.tech/badge/pykuda/month)](https://pepy.tech/project/pykuda) [![Downloads](https://static.pepy.tech/badge/pykuda/week)](https://pepy.tech/project/pykuda)
 
-A python package that simplifies using the Kuda Bank API. While the Kuda Bank Api is quite easy to use, this python package makes it seamless and easy to enjoy the Kuda beautiful Open Api. PyKuda uses Kuda's Api v2 which uses an API key and Token for authentication.
+A python package that simplifies using the Kuda Bank API.This python package makes it seamless and easy to enjoy the beautiful Kuda Bank pen Api. PyKuda uses Kuda's Api v2 which authenticates using an `API key` and a `token`.
 
 ## Getting started
 
