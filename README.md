@@ -18,7 +18,7 @@ PyKuda has some dependencies which will be installed (requests and python-decoup
 
 ### Create Environmental variables
 
-After installation, the next thing is to create `.env` file where the environmental variables will be stored. Five variables are to be set in the `.env` file, and they are shown in an example below.
+After installation, the next thing is to create a `.env` file where the environmental variables will be stored. Five variables are to be set in the `.env` file, and they are shown in an example below.
 
 ```shell
 KUDA_KEY="Your Kuda Api Key"
