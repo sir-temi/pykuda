@@ -4,7 +4,7 @@ from dataclasses import dataclass
 @dataclass
 class PyKudaResponse:
     """
-    Helps simplify Kuda' response
+    Helps simplify Kuda's response
     """
 
     status_code: int
