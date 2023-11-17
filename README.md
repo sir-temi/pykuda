@@ -2,7 +2,7 @@
 
 [![Downloads](https://static.pepy.tech/badge/pykuda)](https://pepy.tech/project/pykuda) [![Downloads](https://static.pepy.tech/badge/pykuda/month)](https://pepy.tech/project/pykuda) [![Downloads](https://static.pepy.tech/badge/pykuda/week)](https://pepy.tech/project/pykuda)
 
-A python package that simplifies using the Kuda Bank API.This python package makes it seamless and easy to enjoy the beautiful Kuda Bank pen Api. PyKuda uses Kuda's Api v2 which authenticates using an `API key` and a `token`.
+A python package that simplifies using the Kuda Bank API. This python package makes it seamless and easy to enjoy the beautiful Kuda Bank pen Api. PyKuda uses Kuda's Api v2 which authenticates using an `API key` and a `token`.
 
 ## Getting started
 
@@ -18,7 +18,7 @@ PyKuda has some dependencies which will be installed (requests and python-decoup
 
 ### Create Environmental variables
 
-After installation, the next thing is to create `.env` file where the environmental variables will be stored. Five variables are to be set in the `.env` file, and they are shown in an example below.
+After installation, the next thing is to create a `.env` file where the environmental variables will be stored. Five variables are to be set in the `.env` file, and they are shown in an example below.
 
 ```shell
 KUDA_KEY="Your Kuda Api Key"
