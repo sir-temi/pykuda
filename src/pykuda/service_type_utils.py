@@ -2,6 +2,7 @@ import requests
 
 from pykuda.classes.py_kuda_response import PyKudaResponse
 from pykuda.utils import Utils
+from pykuda.constants import HTTP_REQUEST_TIMEOUT
 
 
 class ServiceTypeUtils(Utils):
@@ -35,7 +36,10 @@ class ServiceTypeUtils(Utils):
             return PyKudaResponse(status_code=headers.status_code, data=headers)
         else:
             response = requests.post(
-                self.credentials["REQUEST_URL"], json=data, headers=headers, timeout=10
+                self.credentials["REQUEST_URL"],
+                json=data,
+                headers=headers,
+                timeout=HTTP_REQUEST_TIMEOUT,
             )
 
             response_data = response.json()
@@ -72,7 +76,10 @@ class ServiceTypeUtils(Utils):
             return PyKudaResponse(status_code=headers.status_code, data=headers)
         else:
             response = requests.post(
-                self.credentials["REQUEST_URL"], json=data, headers=headers, timeout=10
+                self.credentials["REQUEST_URL"],
+                json=data,
+                headers=headers,
+                timeout=HTTP_REQUEST_TIMEOUT,
             )
 
             response_data = response.json()
@@ -116,7 +123,7 @@ class ServiceTypeUtils(Utils):
                 self.credentials["REQUEST_URL"],
                 json=data,
                 headers=headers,
-                timeout=10,
+                timeout=HTTP_REQUEST_TIMEOUT,
             )
 
             response_data = response.json()
@@ -154,7 +161,7 @@ class ServiceTypeUtils(Utils):
                 self.credentials["REQUEST_URL"],
                 json=data,
                 headers=headers,
-                timeout=10,
+                timeout=HTTP_REQUEST_TIMEOUT,
             )
 
             response_data = response.json()
@@ -192,7 +199,7 @@ class ServiceTypeUtils(Utils):
                 self.credentials["REQUEST_URL"],
                 json=data,
                 headers=headers,
-                timeout=10,
+                timeout=HTTP_REQUEST_TIMEOUT,
             )
 
             response_data = response.json()
@@ -230,7 +237,7 @@ class ServiceTypeUtils(Utils):
                 self.credentials["REQUEST_URL"],
                 json=data,
                 headers=headers,
-                timeout=10,
+                timeout=HTTP_REQUEST_TIMEOUT,
             )
 
             response_data = response.json()
@@ -268,7 +275,7 @@ class ServiceTypeUtils(Utils):
                 self.credentials["REQUEST_URL"],
                 json=data,
                 headers=headers,
-                timeout=10,
+                timeout=HTTP_REQUEST_TIMEOUT,
             )
 
             response_data = response.json()
@@ -320,7 +327,7 @@ class ServiceTypeUtils(Utils):
                 self.credentials["REQUEST_URL"],
                 json=data,
                 headers=headers,
-                timeout=10,
+                timeout=HTTP_REQUEST_TIMEOUT,
             )
 
             response_data = response.json()
@@ -363,7 +370,7 @@ class ServiceTypeUtils(Utils):
                 self.credentials["REQUEST_URL"],
                 json=data,
                 headers=headers,
-                timeout=10,
+                timeout=HTTP_REQUEST_TIMEOUT,
             )
 
             response_data = response.json()
@@ -408,7 +415,7 @@ class ServiceTypeUtils(Utils):
                 self.credentials["REQUEST_URL"],
                 json=data,
                 headers=headers,
-                timeout=10,
+                timeout=HTTP_REQUEST_TIMEOUT,
             )
 
             response_data = response.json()
@@ -447,7 +454,7 @@ class ServiceTypeUtils(Utils):
                 self.credentials["REQUEST_URL"],
                 json=data,
                 headers=headers,
-                timeout=10,
+                timeout=HTTP_REQUEST_TIMEOUT,
             )
 
             response_data = response.json()
@@ -488,7 +495,7 @@ class ServiceTypeUtils(Utils):
                 self.credentials["REQUEST_URL"],
                 json=data,
                 headers=headers,
-                timeout=10,
+                timeout=HTTP_REQUEST_TIMEOUT,
             )
 
             response_data = response.json()
@@ -529,7 +536,7 @@ class ServiceTypeUtils(Utils):
                 self.credentials["REQUEST_URL"],
                 json=data,
                 headers=headers,
-                timeout=10,
+                timeout=HTTP_REQUEST_TIMEOUT,
             )
 
             response_data = response.json()
@@ -567,7 +574,7 @@ class ServiceTypeUtils(Utils):
                 self.credentials["REQUEST_URL"],
                 json=data,
                 headers=headers,
-                timeout=10,
+                timeout=HTTP_REQUEST_TIMEOUT,
             )
 
             response_data = response.json()
@@ -605,7 +612,7 @@ class ServiceTypeUtils(Utils):
                 self.credentials["REQUEST_URL"],
                 json=data,
                 headers=headers,
-                timeout=10,
+                timeout=HTTP_REQUEST_TIMEOUT,
             )
 
             response_data = response.json()
@@ -643,7 +650,7 @@ class ServiceTypeUtils(Utils):
                 self.credentials["REQUEST_URL"],
                 json=data,
                 headers=headers,
-                timeout=10,
+                timeout=HTTP_REQUEST_TIMEOUT,
             )
 
             response_data = response.json()
@@ -681,7 +688,7 @@ class ServiceTypeUtils(Utils):
                 self.credentials["REQUEST_URL"],
                 json=data,
                 headers=headers,
-                timeout=10,
+                timeout=HTTP_REQUEST_TIMEOUT,
             )
 
             response_data = response.json()
