@@ -28,7 +28,36 @@ EMAIL="Your email used to register for the Kuda account"
 MAIN_ACCOUNT_NUMBER="Your main Kuda account number"
 ```
 
+Not setting these in the `.env` file will raise a value error as shown below.
+
+```shell
+>>> from pykuda.pykuda import PyKuda
+>>> kuda = PyKuda()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/path/to/Python/version/lib/python/site-packages/pykuda/pykuda.py", line 16, in __init__
+    raise ValueError(response)
+ValueError: TOKEN_URL, REQUEST_URL, EMAIL, MAIN_ACCOUNT_NUMBER are not set, please set in the environment or pass them as a dictionary when initialising PyKuda.
+```
+
 NB: Please make sure you do not push your `.env` file to public repositories as the details here are confidential.
+
+### Initialize with credentials
+
+If you do not want to set the credentials in the `.env` file, you can also initiaize `PyKuda` with a dictionary of your credentials.
+
+```shell
+>>> from pykuda.pykuda import PyKuda
+>>> credentials = {
+...   "KUDA_KEY": "KUDA_KEY",
+...   "TOKEN_URL": "TOKEN_URL",
+...   "REQUEST_URL": "REQUEST_URL",
+...   "EMAIL": "EMAIL",
+...   "MAIN_ACCOUNT_NUMBER": "MAIN_ACCOUNT_NUMBER",
+... }
+>>> kuda = PyKuda(credentials) # Will not raise a ValueError
+
+```
 
 ## Using PyKuda
 

@@ -3,8 +3,10 @@ from decouple import config
 import secrets
 import requests
 
+from pykuda.constants import KUDA_CREDENTIALS_KEYS
 
-def check_envs_are_set() -> bool | str:
+
+def check_envs_are_set(credentials: dict | None) -> bool | str:
     """
     Checks if important environmental variables are set.
 
@@ -12,20 +14,23 @@ def check_envs_are_set() -> bool | str:
         A dictionary of credentials if all environmental variables are set,
         otherwise a string with missing variables.
     """
-    credentials = {
-        "KUDA_KEY": config("KUDA_KEY", default=None),
-        "TOKEN_URL": config("TOKEN_URL", default=None),
-        "REQUEST_URL": config("REQUEST_URL", default=None),
-        "EMAIL": config("EMAIL", default=None),
-        "MAIN_ACCOUNT_NUMBER": config("MAIN_ACCOUNT_NUMBER", default=None),
-    }
+    credentials = (
+        credentials
+        if credentials
+        else {
+            "KUDA_KEY": config("KUDA_KEY", default=None),
+            "TOKEN_URL": config("TOKEN_URL", default=None),
+            "REQUEST_URL": config("REQUEST_URL", default=None),
+            "EMAIL": config("EMAIL", default=None),
+            "MAIN_ACCOUNT_NUMBER": config("MAIN_ACCOUNT_NUMBER", default=None),
+        }
+    )
 
-    if all(list(credentials.values())):
-        return credentials
-
-    unset_variables = [var for var, value in credentials.items() if not value]
+    unset_variables = [
+        kuda_key for kuda_key in KUDA_CREDENTIALS_KEYS if not credentials.get(kuda_key)
+    ]
     return (
-        f"{', '.join(unset_variables)} is not set, please set in the environment and try again."
+        f"{', '.join(unset_variables)} are not set, please set in the environment or pass them as a dictionary when initialising PyKuda."
         if unset_variables
         else credentials
     )

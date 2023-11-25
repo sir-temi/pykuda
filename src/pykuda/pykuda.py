@@ -7,8 +7,8 @@ class PyKuda(ServiceType):
     PyKuda Class.
     """
 
-    def __init__(self):
-        response = check_envs_are_set()
+    def __init__(self, credentials: dict | None = None):
+        response = check_envs_are_set(credentials)
 
         # If all credentials were properly set, response will
         # be a dictionary of credentials, else will be a string
