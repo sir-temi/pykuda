@@ -159,7 +159,7 @@ As seen above, the PyKudaResponse returns the `status_code`, `data` and `error`;
 
 #### Important Note on Error Handling:
 
-When interacting with the Kuda API, it is not recommended to rely solely on the `status_code` for error handling. The Kuda API may return a `200` status code even in cases where Kuda couldn't process the rwquest due to client errors or typos.
+When interacting with the Kuda API, it is not recommended to rely solely on the `status_code` for error handling. The Kuda API may return a `200` status code even in cases where Kuda couldn't process the request due to client errors or typos.
 
 For instance, when attempting to purchase airtime, passing an invalid `tracking_reference` will return a `200` status code from Kuda, but the request will not be processed successfully.
 
@@ -181,11 +181,11 @@ print(response.data.text)
 # '{"message":"Invalid Virtual Account.","status":false,"data":null,"statusCode":"k-OAPI-07"}'
 ```
 
-As shown in the [Successful request](#successful-request) section, it is recommended to use response.error to ensure that the request was successful.
+As shown in the [Successful request](#successful-request) section, it is recommended to use `PyKudaResponse.error` to ensure that the request was successful.
 
 ## What else can PyKuda do?
 
-PyKuda can be used to make other requests also. Below are examples of how to use the other methods available in the `ServiceType` class.
+`PyKuda` can be used to make other requests also. Below are examples of how to use the other methods available in the `ServiceType` class.
 
 ### Create Virtual Account
 
