@@ -345,6 +345,23 @@ print(response.data)
 # }
 ```
 
+### Main Account Purchase Bill
+
+```python
+response = kuda.p.admin_purchase_bill(
+    amount="500",
+    kuda_biller_item_identifier="bill_item_identifier",
+    customer_identifier="customer_identifier",
+    tracking_reference="your_tracking_reference",
+    client_first_name="Lagbaja",
+    phone_number="customer_phone_number",
+)
+print(response.data)
+# {
+#     "reference": "reference",
+# }
+```
+
 ### Virtual Account Purchase Bill
 
 ```python

@@ -476,6 +476,47 @@ class ServiceTypeUtils(Utils):
                     status_code=response.status_code, data=response, error=True
                 )
 
+    def _admin_purchase_bill_request(self, data: dict) -> PyKudaResponse:
+        """
+        Makes a bill payment using a virtual account.
+
+        Args:
+            data (dict): Request data for the API call.
+
+        Returns:
+            A PyKudaResponse object with the payment reference or an error message.
+        """
+        headers = self._generate_headers()
+
+        if isinstance(headers, requests.models.Response):
+            return PyKudaResponse(status_code=headers.status_code, data=headers)
+        else:
+            response = requests.post(
+                self.credentials["REQUEST_URL"],
+                json=data,
+                headers=headers,
+                timeout=HTTP_REQUEST_TIMEOUT,
+            )
+
+            response_data = response.json()
+
+            if (
+                response.status_code == 200
+                and response_data.get("status")
+                and response_data.get("data")
+                and response_data.get("data").get("reference")
+            ):
+                return PyKudaResponse(
+                    status_code=200,
+                    data={
+                        "reference": response_data.get("data").get("reference"),
+                    },
+                )
+            else:
+                return PyKudaResponse(
+                    status_code=response.status_code, data=response, error=True
+                )
+
     def _virtual_account_purchase_bill_request(self, data: dict) -> PyKudaResponse:
         """
         Makes a bill payment using a virtual account.
