@@ -329,6 +329,43 @@ class ServiceType(ServiceTypeUtils):
         )
         return self._virtual_account_purchase_bill_request(data)
 
+    def admin_purchase_bill(
+        self,
+        amount: str,
+        kuda_biller_item_identifier: str,
+        customer_identifier: str,
+        tracking_reference: str,
+        client_first_name: str,
+        phone_number: str | None = None,
+    ) -> PyKudaResponse:
+        """
+        Purchase a bill with the main account.
+
+        Args:
+            amount (str): Amount to pay for the bill.
+            kuda_biller_item_identifier (str): Identifier of the bill item in Kuda.
+            customer_identifier (str): Identifier of the customer.
+            tracking_reference (str): Tracking reference for the virtual account.
+            client_first_name (str): Customer first name
+            phone_number (str, optional): Phone number of the customer. Defaults to None.
+
+        Returns:
+            PyKudaResponse: Response object containing the result of the request.
+        """
+        data = self._generate_common_data(
+            ServiceTypeConstants.ADMIN_PURCHASE_BILL.value, tracking_reference
+        )
+        data["Data"].update(
+            {
+                "Amount": amount,
+                "BillItemIdentifier": kuda_biller_item_identifier,
+                "PhoneNumber": phone_number,
+                "CustomerIdentifier": customer_identifier,
+                "CustomerFirstName": client_first_name,
+            }
+        )
+        return self._admin_purchase_bill_request(data)
+
     def disable_virtual_account(self, tracking_reference: str) -> PyKudaResponse:
         """
         Disables a virtual account
