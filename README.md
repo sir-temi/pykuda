@@ -75,7 +75,7 @@ print(response)
 
 ### Failed request
 
-In case the request wasn't successful, the PyKudaResponse will be different. The data will be a `Response` Object which you can check to investigate the cause (Maybe your Token is not correct, or the URL, or something else). Now, let's say the API Key in the .env file was not a correct one and a request was made, the example below shows the response to expect.
+In case the request wasn't successful, the PyKudaResponse will be different. The data will be a `Response` Object which you can check to investigate the cause (Maybe your Token is not correct, or the URL, or something else). Now, let's say the API Key in the `.env` file was not a correct one and a request was made, the example below shows the response to expect.
 
 ```python
 print(response)
@@ -104,7 +104,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 
-from pykuda.pykuda import PyKuda, PyKudaResponse
+from pykuda.pykuda import PyKuda
 
 
 logger = logging.getLogger(__name__)
@@ -159,11 +159,11 @@ As seen above, the PyKudaResponse returns the `status_code`, `data` and `error`;
 
 #### Important Note on Error Handling:
 
-When interacting with the Kuda API, it is not recommended to rely solely on the response.status_code for error handling. The Kuda API may return a 200 status code even in cases where there are errors or typos in the request parameters.
+When interacting with the Kuda API, it is not recommended to rely solely on the `status_code` for error handling. The Kuda API may return a `200` status code even in cases where Kuda couldn't process the request due to client errors or typos.
 
-For instance, when attempting to purchase airtime, passing an invalid tracking_reference will result in a 200 status code from Kuda, but the request will not be processed successfully.
+For instance, when attempting to purchase airtime, passing an invalid `tracking_reference` will return a `200` status code from Kuda, but the request will not be processed successfully.
 
-To ensure robust error handling, it is crucial to examine the response data and utilize the error attribute in the PyKudaResponse object. `PyKuda` intelligently checks that if the request is not successful and was not processed by Kuda, the `response.error` will be `True`. This attribute indicates whether the API request was successful or if there were issues.
+To ensure robust error handling, it is crucial to examine the response data and utilize the error attribute in the `PyKudaResponse` object. `PyKuda` intelligently checks that if the request is not successful and was not processed by Kuda, the `PyKudaReponse.error` will be `True`. This `error` attribute indicates whether the API request was successful or if there were issues.
 
 **Example:**
 
@@ -181,11 +181,11 @@ print(response.data.text)
 # '{"message":"Invalid Virtual Account.","status":false,"data":null,"statusCode":"k-OAPI-07"}'
 ```
 
-As shown in the [Successful request](#successful-request) section, it is recommended to use response.error to ensure that the request was successful.
+As shown in the [Successful request](#successful-request) section, it is recommended to use `PyKudaResponse.error` to ensure that the request was successful.
 
 ## What else can PyKuda do?
 
-PyKuda can be used to make other requests also. Below are examples of how to use the other methods available in the `ServiceType` class.
+`PyKuda` can be used to make other requests also. Below are examples of how to use the other methods available in the `ServiceType` class.
 
 ### Create Virtual Account
 
