@@ -27,19 +27,34 @@ class ServiceType(ServiceTypeUtils):
         last_name: str,
         phone_number: str,
         email: str,
+        verification_type: int,
+        face_image_url: str,
         middle_name: str | None = None,
         business_name: str | None = None,
+        id_type: int | None = None,
+        bvn: str | None = None,
+        nin: str | None = None,
     ) -> PyKudaResponse:
         """
         Create a virtual account.
 
         Args:
-            first_name (str): First name of the account holder.
+             first_name (str): First name of the account holder.
             last_name (str): Last name of the account holder.
             phone_number (str): Phone number associated with the account.
             email (str): Email address associated with the account.
+            verification_type (int): Type of verification. Example values:
+                - 1: BVN
+                - 2: NIN
+                - 3: Both BVN and NIN
             middle_name (str, optional): Middle name of the account holder. Defaults to None.
             business_name (str, optional): Business name if applicable. Defaults to None.
+            id_type (int, optional): Type of ID. Defaults to None. Example values:
+                - 1: NIN
+                - 2: Virtual NIN
+            bvn (str, optional): Bank Verification Number (BVN). Defaults to None.
+            nin (str, optional): National Identification Number (NIN). Defaults to None.
+            face_image_url (str, optional): URL of the face image. Defaults to None.
 
         Returns:
             PyKudaResponse: Response object containing the result of the request.
@@ -53,9 +68,59 @@ class ServiceType(ServiceTypeUtils):
                 "email": email,
                 "lastName": last_name,
                 "firstName": first_name,
-                "middleName": middle_name if middle_name else None,
-                "businessName": business_name if business_name else None,
+                "middleName": middle_name,
+                "businessName": business_name,
                 "trackingReference": secrets.token_hex(8),
+                "VerificationType": verification_type,
+                "IdType": id_type,
+                "NIN": nin,
+                "BVN": bvn,
+                "FaceImageUrl": face_image_url,
+            }
+        )
+
+        return self._create_virtual_account_request(data)
+
+    def upgrade_virtual_account(
+        self,
+        tracking_reference: str,
+        verification_type: int,
+        face_image_url: str,
+        address: str | None = None,
+        id_type: int | None = None,
+        bvn: str | None = None,
+        nin: str | None = None,
+    ) -> PyKudaResponse:
+        """
+        Create a virtual account.
+
+        Args:
+            verification_type (int): Type of verification. Example values:
+                - 1: BVN
+                - 2: NIN
+                - 3: Both BVN and NIN
+            id_type (int, optional): Type of ID. Defaults to None. Example values:
+                - 1: NIN
+                - 2: Virtual NIN
+            bvn (str, optional): Bank Verification Number (BVN). Defaults to None.
+            nin (str, optional): National Identification Number (NIN). Defaults to None.
+            face_image_url (str, optional): URL of the face image. Defaults to None.
+            address (str, optional): Client's Address
+
+        Returns:
+            PyKudaResponse: Response object containing the result of the request.
+        """
+        data = self._generate_common_data(
+            ServiceTypeConstants.ADMIN_UPGRADE_VIRTUAL_ACCOUNT.value, tracking_reference
+        )
+        data["Data"].update(
+            {
+                "VerificationType": verification_type,
+                "IdType": id_type,
+                "NIN": nin,
+                "BVN": bvn,
+                "FaceImageUrl": face_image_url,
+                "Address": address,
             }
         )
 
@@ -152,9 +217,9 @@ class ServiceType(ServiceTypeUtils):
             {
                 "beneficiaryAccountNumber": beneficiary_account_number,
                 "beneficiaryBankCode": beneficiary_bank_code,
-                "SenderTrackingReference": tracking_reference
-                if tracking_reference
-                else "",
+                "SenderTrackingReference": (
+                    tracking_reference if tracking_reference else ""
+                ),
                 "isRequestFromVirtualAccount": bool(tracking_reference),
             }
         )

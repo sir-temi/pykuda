@@ -33,7 +33,9 @@ class ServiceTypeUtils(Utils):
         headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
-            return PyKudaResponse(status_code=headers.status_code, data=headers)
+            return PyKudaResponse(
+                status_code=headers.status_code, data=headers, error=True
+            )
         else:
             response = requests.post(
                 self.credentials["REQUEST_URL"],
@@ -73,7 +75,9 @@ class ServiceTypeUtils(Utils):
         headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
-            return PyKudaResponse(status_code=headers.status_code, data=headers)
+            return PyKudaResponse(
+                status_code=headers.status_code, data=headers, error=True
+            )
         else:
             response = requests.post(
                 self.credentials["REQUEST_URL"],
@@ -104,6 +108,52 @@ class ServiceTypeUtils(Utils):
                     status_code=response.status_code, data=response, error=True
                 )
 
+    def _upgrade_virtual_account_request(self, data: dict) -> PyKudaResponse:
+        """
+        Function responsible for upgrading a virtual account.
+
+        Args:
+            data (dict): Request data for the API call.
+
+        Returns:
+            PyKudaResponse: Response object with the virtual account details or an error message.
+        """
+        headers = self._generate_headers()
+
+        if isinstance(headers, requests.models.Response):
+            return PyKudaResponse(
+                status_code=headers.status_code, data=headers, error=True
+            )
+        else:
+            response = requests.post(
+                self.credentials["REQUEST_URL"],
+                json=data,
+                headers=headers,
+                timeout=HTTP_REQUEST_TIMEOUT,
+            )
+
+            response_data = response.json()
+
+            if (
+                response.status_code == 200
+                and response_data
+                and response_data.get("status")
+                and (
+                    response_data.get("message")
+                    == "Virtual account upgrade request logged."
+                    or response_data.get("statusCode") == "k00"
+                )
+            ):
+                return PyKudaResponse(
+                    status_code=200,
+                    data=response_data,
+                )
+
+            else:
+                return PyKudaResponse(
+                    status_code=response.status_code, data=response, error=True
+                )
+
     def _virtual_account_balance_request(self, data: dict) -> PyKudaResponse:
         """
         Retrieves the balance of a virtual account.
@@ -117,7 +167,9 @@ class ServiceTypeUtils(Utils):
         headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
-            return PyKudaResponse(status_code=headers.status_code, data=headers)
+            return PyKudaResponse(
+                status_code=headers.status_code, data=headers, error=True
+            )
         else:
             response = requests.post(
                 self.credentials["REQUEST_URL"],
@@ -155,7 +207,9 @@ class ServiceTypeUtils(Utils):
         headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
-            return PyKudaResponse(status_code=headers.status_code, data=headers)
+            return PyKudaResponse(
+                status_code=headers.status_code, data=headers, error=True
+            )
         else:
             response = requests.post(
                 self.credentials["REQUEST_URL"],
@@ -193,7 +247,9 @@ class ServiceTypeUtils(Utils):
         headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
-            return PyKudaResponse(status_code=headers.status_code, data=headers)
+            return PyKudaResponse(
+                status_code=headers.status_code, data=headers, error=True
+            )
         else:
             response = requests.post(
                 self.credentials["REQUEST_URL"],
@@ -231,7 +287,9 @@ class ServiceTypeUtils(Utils):
         headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
-            return PyKudaResponse(status_code=headers.status_code, data=headers)
+            return PyKudaResponse(
+                status_code=headers.status_code, data=headers, error=True
+            )
         else:
             response = requests.post(
                 self.credentials["REQUEST_URL"],
@@ -269,7 +327,9 @@ class ServiceTypeUtils(Utils):
         headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
-            return PyKudaResponse(status_code=headers.status_code, data=headers)
+            return PyKudaResponse(
+                status_code=headers.status_code, data=headers, error=True
+            )
         else:
             response = requests.post(
                 self.credentials["REQUEST_URL"],
@@ -321,7 +381,9 @@ class ServiceTypeUtils(Utils):
         headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
-            return PyKudaResponse(status_code=headers.status_code, data=headers)
+            return PyKudaResponse(
+                status_code=headers.status_code, data=headers, error=True
+            )
         else:
             response = requests.post(
                 self.credentials["REQUEST_URL"],
@@ -364,7 +426,9 @@ class ServiceTypeUtils(Utils):
         headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
-            return PyKudaResponse(status_code=headers.status_code, data=headers)
+            return PyKudaResponse(
+                status_code=headers.status_code, data=headers, error=True
+            )
         else:
             response = requests.post(
                 self.credentials["REQUEST_URL"],
@@ -409,7 +473,9 @@ class ServiceTypeUtils(Utils):
         headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
-            return PyKudaResponse(status_code=headers.status_code, data=headers)
+            return PyKudaResponse(
+                status_code=headers.status_code, data=headers, error=True
+            )
         else:
             response = requests.post(
                 self.credentials["REQUEST_URL"],
@@ -448,7 +514,9 @@ class ServiceTypeUtils(Utils):
         headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
-            return PyKudaResponse(status_code=headers.status_code, data=headers)
+            return PyKudaResponse(
+                status_code=headers.status_code, data=headers, error=True
+            )
         else:
             response = requests.post(
                 self.credentials["REQUEST_URL"],
@@ -489,7 +557,9 @@ class ServiceTypeUtils(Utils):
         headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
-            return PyKudaResponse(status_code=headers.status_code, data=headers)
+            return PyKudaResponse(
+                status_code=headers.status_code, data=headers, error=True
+            )
         else:
             response = requests.post(
                 self.credentials["REQUEST_URL"],
@@ -530,7 +600,9 @@ class ServiceTypeUtils(Utils):
         headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
-            return PyKudaResponse(status_code=headers.status_code, data=headers)
+            return PyKudaResponse(
+                status_code=headers.status_code, data=headers, error=True
+            )
         else:
             response = requests.post(
                 self.credentials["REQUEST_URL"],
@@ -571,7 +643,9 @@ class ServiceTypeUtils(Utils):
         headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
-            return PyKudaResponse(status_code=headers.status_code, data=headers)
+            return PyKudaResponse(
+                status_code=headers.status_code, data=headers, error=True
+            )
         else:
             response = requests.post(
                 self.credentials["REQUEST_URL"],
@@ -609,7 +683,9 @@ class ServiceTypeUtils(Utils):
         headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
-            return PyKudaResponse(status_code=headers.status_code, data=headers)
+            return PyKudaResponse(
+                status_code=headers.status_code, data=headers, error=True
+            )
         else:
             response = requests.post(
                 self.credentials["REQUEST_URL"],
@@ -647,7 +723,9 @@ class ServiceTypeUtils(Utils):
         headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
-            return PyKudaResponse(status_code=headers.status_code, data=headers)
+            return PyKudaResponse(
+                status_code=headers.status_code, data=headers, error=True
+            )
         else:
             response = requests.post(
                 self.credentials["REQUEST_URL"],
@@ -685,7 +763,9 @@ class ServiceTypeUtils(Utils):
         headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
-            return PyKudaResponse(status_code=headers.status_code, data=headers)
+            return PyKudaResponse(
+                status_code=headers.status_code, data=headers, error=True
+            )
         else:
             response = requests.post(
                 self.credentials["REQUEST_URL"],
@@ -723,7 +803,9 @@ class ServiceTypeUtils(Utils):
         headers = self._generate_headers()
 
         if isinstance(headers, requests.models.Response):
-            return PyKudaResponse(status_code=headers.status_code, data=headers)
+            return PyKudaResponse(
+                status_code=headers.status_code, data=headers, error=True
+            )
         else:
             response = requests.post(
                 self.credentials["REQUEST_URL"],
