@@ -485,4 +485,4 @@ print(response.data)
 
 ## Contributors
 
-| [![Username1](https://github.com/sir-temi.png?size=50)](https://github.com/sir-temi) | [![Username2](https://github.com/pythonisoft.png?size=50)](https://github.com/pythonisoft)
+[<img src="https://github.com/sir-temi.png" width="100px;"/>](https://github.com/sir-temi) | [<img src="https://github.com/pythonisoft.png" width="100px;"/>](https://github.com/pythonisoft)
