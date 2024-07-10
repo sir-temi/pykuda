@@ -482,8 +482,3 @@ print(response.data)
 ## Author
 
 -   [Kayode TemiTope](https://github.com/sir-temi)
-
-## Contributors
-
-[<img src="https://github.com/sir-temi.png" width="50px;" style="border-radius:50%;"/>](https://github.com/sir-temi)
-[<img src="https://github.com/pythonisoft.png" width="50px;" style="border-radius:50%; margin-left: 20px;"/>](https://github.com/pythonisoft)
