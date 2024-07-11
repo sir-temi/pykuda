@@ -22,7 +22,7 @@ class ServiceTypeUtils(Utils):
 
     def _banks_list_request(self, data: dict) -> PyKudaResponse:
         """
-        Retrieves a list of Nigerian banks.
+        this is to retrieves a list of Nigerian banks.
 
         Args:
             data (dict): Request data for the API call.
