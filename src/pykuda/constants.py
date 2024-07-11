@@ -2,7 +2,17 @@ from enum import Enum
 
 
 class ServiceTypeConstants(Enum):
-    """ServiceType Constants"""
+    """ServiceType Constants
+        This enumeration represents various service types that can be used in 
+    the context of virtual account management and transactions. Each constant 
+    corresponds to a specific service operation that can be performed, such as 
+    creating a virtual account, retrieving balances, transferring funds, and 
+    handling bill payments.
+
+    These constants can be used to standardize the service type identifiers 
+    across different parts of the application, ensuring consistency and 
+    reducing the likelihood of errors caused by hardcoding strings.
+    """
 
     BANK_LIST = "BANK_LIST"
     ADMIN_CREATE_VIRTUAL_ACCOUNT = "ADMIN_CREATE_VIRTUAL_ACCOUNT"
