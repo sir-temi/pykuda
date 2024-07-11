@@ -4,15 +4,19 @@ from pykuda.utils import check_envs_are_set
 
 class PyKuda(ServiceType):
     """
-    PyKuda Class.
+    PyKuda Class handles the authentication and initialization
+    of credentials for the Kuda API service.
     """
 
     def __init__(self, credentials: dict | None = None):
+        # Check if the environment variables are set or the provided
+        # credentials dictionary is valid.
         response = check_envs_are_set(credentials)
 
-        # If all credentials were properly set, response will
-        # be a dictionary of credentials, else will be a string
+        # If credentials are valid, 'response' will be a dictionary containing
+        # the credentials. Otherwise, it will be a string with an error message.
         if not isinstance(response, dict):
             raise ValueError(response)
 
+        # Store the valid credentials.
         self.credentials = response
