@@ -75,7 +75,7 @@ print(response)
 
 ### Failed request
 
-In case the request wasn't successful, the PyKudaResponse will be different. The data will be a `Response` Object which you can check to investigate the cause (Maybe your Token is not correct, or the URL, or something else). Now, let's say the API Key in the `.env` file was not a correct one and a request was made, the example below shows the response to expect.
+In case the request isn't successful, the PyKudaResponse will be different. The data will be a `Response` Object which you can check to investigate the cause (Maybe your Token is not correct, or the URL, or something else). Now, let's say the API Key in the `.env` file was not the correct one, and a request was made, the example below shows the response to expect.
 
 ```python
 print(response)
