@@ -14,7 +14,7 @@ To use this package, install it using the package manager [pip](https://pip.pypa
 pip install pykuda
 ```
 
-PyKuda has some dependencies which will be installed (requests and python-decouple). `requests` is used by PyKuda to make http requests to Kuda's endpoints, while the `python-decouple` is responsible for getting the environmental variables which has to be set for the requests to be authenticated; more to be discussed below.
+Our package, PyKuda has some dependencies which will be installed (requests and python-decouple). `requests` is used by PyKuda to make http requests to Kuda's endpoints, while the `python-decouple` is responsible for getting the environmental variables which has to be set for the requests to be authenticated; more to be discussed below.
 
 ### Create Environmental variables
 
