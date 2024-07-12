@@ -2,7 +2,7 @@
 
 [![Downloads](https://static.pepy.tech/badge/pykuda)](https://pepy.tech/project/pykuda) [![Downloads](https://static.pepy.tech/badge/pykuda/month)](https://pepy.tech/project/pykuda) [![Downloads](https://static.pepy.tech/badge/pykuda/week)](https://pepy.tech/project/pykuda)
 
-A python package that simplifies using the Kuda Bank API. This python package makes it seamless and easy to enjoy the beautiful Kuda Bank pen Api. PyKuda uses Kuda's Api v2 which authenticates using an `API key` and a `token`.
+A Python package that simplifies using the Kuda Bank API. This Python package makes it seamless and easy to enjoy the beautiful Kuda Bank pen Api. PyKuda uses Kuda's Api v2 which authenticates using an `API key` and a `token`.
 
 ## Getting started
 
@@ -14,11 +14,11 @@ To use this package, install it using the package manager [pip](https://pip.pypa
 pip install pykuda
 ```
 
-Our package, PyKuda has some dependencies which will be installed (requests and python-decouple). `requests` is used by PyKuda to make http requests to Kuda's endpoints, while the `python-decouple` is responsible for getting the environmental variables which has to be set for the requests to be authenticated; more to be discussed below.
+Our package, PyKuda has some dependencies that will be installed (requests and python-decouple). `requests` is used by PyKuda to make HTTP requests to Kuda's endpoints, while the `python-decouple` is responsible for getting the environmental variables that have to be set for the requests to be authenticated; more to be discussed below.
 
 ### Create Environmental variables
 
-After installation, the next thing is to create a `.env` file where the environmental variables will be stored. Five variables are to be set in the `.env` file, and they are shown in an example below.
+After installation, the next thing is to create a `.env` file where the environmental variables will be stored. Five variables are to be set in the `.env` file, shown in an example below.
 
 ```shell
 KUDA_KEY="Your Kuda Api Key"
@@ -37,14 +37,14 @@ Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
   File "/path/to/Python/version/lib/python/site-packages/pykuda/pykuda.py", line 16, in __init__
     raise ValueError(response)
-ValueError: TOKEN_URL, REQUEST_URL, EMAIL, MAIN_ACCOUNT_NUMBER are not set, please set in the environment or pass them as a dictionary when initialising PyKuda.
+ValueError: TOKEN_URL, REQUEST_URL, EMAIL, MAIN_ACCOUNT_NUMBER are not set, please set them in the environment or pass them as a dictionary when initializing PyKuda.
 ```
 
-NB: Please make sure you do not push your `.env` file to public repositories as the details here are confidential.
+NB: Please ensure you do not push your `.env` file to public repositories as the details here are confidential.
 
 ### Initialize with credentials
 
-If you do not want to set the credentials in the `.env` file, you can also initiaize `PyKuda` with a dictionary of your credentials.
+If you do not want to set the credentials in the `.env` file, you can also initialize `PyKuda` with a dictionary of your credentials.
 
 ```shell
 >>> from pykuda.pykuda import PyKuda
@@ -95,7 +95,7 @@ With `PyKuda`, every interaction with the Kuda API is elevated through the `PyKu
 `PyKudaResponse` serves as a tailored feedback mechanism provided by PyKuda. Its primary purpose is to enhance the interpretation of Kuda's responses and reliably confirm the success of a request. In cases where the request encounters issues, the `error` attribute is set to `True`, signaling that an error has occurred during the interaction. This nuanced approach ensures a more robust and dependable handling of API responses. It is imperative to systematically inspect the `error` attribute to ascertain the success of the method.
 
 **Example:**
-This illustrative example outlines a conventional approach to leverage PyKuda for verifying the success of a request.
+This illustrative example outlines a conventional approach to leveraging PyKuda for verifying a request's success.
 
 ```python
 import logging
@@ -124,7 +124,7 @@ class BanksListView(APIView):
         Returns:
             Response: JSON response containing the list of banks or an error message.
         """
-        # Retrieve list of banks from Kuda API
+        # Retrieve the list of banks from Kuda API
         response = kuda.banks_list()
 
         if not response.error:
@@ -155,7 +155,7 @@ class BanksListView(APIView):
         )
 ```
 
-As seen above, the PyKudaResponse returns the `status_code`, `data` and `error`; the data attribute already contains the appropriate data received from Kuda API. You can access the Kuda response data by executing `response.data`.
+As seen above, the PyKudaResponse returns the `status_code`, `data`, and `error`; the data attribute already contains the appropriate data received from Kuda API. You can access the Kuda response data by executing `response.data`.
 
 #### Important Note on Error Handling:
 
@@ -178,7 +178,7 @@ response = kuda.virtual_account_purchase_bill(
 print(response)
 # PyKudaResponse(status_code=200, data=<Response [200]>, error=True)
 print(response.data.text)
-# '{"message":"Invalid Virtual Account.","status":false,"data":null,"statusCode":"k-OAPI-07"}'
+# '{"message": "Invalid Virtual Account.","status": false, "data": null, "statusCode": "k-OAPI-07"}'
 ```
 
 As shown in the [Successful request](#successful-request) section, it is recommended to use `PyKudaResponse.error` to ensure that the request was successful.
@@ -281,7 +281,7 @@ print(response.data)
 # }
 ```
 
-### Send Funds from Main Account
+### Send Funds from the Main Account
 
 ```python
 response = kuda.send_funds_from_main_account(
@@ -477,7 +477,7 @@ print(response.data)
 ## Contributions & Issues
 
 -   If you would like to contribute and improve this package or its documentation, please feel free to fork the repository, make changes and open a pull request.
--   If you encounter any issue or bugs, please open an issue.
+-   If you encounter any issues or bugs, please open an issue.
 
 ## Author
 
