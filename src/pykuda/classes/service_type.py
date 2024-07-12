@@ -1,4 +1,5 @@
 import secrets
+from typing import Optional
 
 from pykuda.classes.py_kuda_response import PyKudaResponse
 from pykuda.constants import ServiceTypeConstants
@@ -29,17 +30,17 @@ class ServiceType(ServiceTypeUtils):
         email: str,
         verification_type: int,
         face_image_url: str,
-        middle_name: str | None = None,
-        business_name: str | None = None,
-        id_type: int | None = None,
-        bvn: str | None = None,
-        nin: str | None = None,
+        middle_name: Optional[str] = None,
+        business_name: Optional[str] = None,
+        id_type: Optional[int] = None,
+        bvn: Optional[str] = None,
+        nin: Optional[str] = None,
     ) -> PyKudaResponse:
         """
-        Create a virtual account.
+        Creates a new virtual account.
 
         Args:
-             first_name (str): First name of the account holder.
+            first_name (str): First name of the account holder.
             last_name (str): Last name of the account holder.
             phone_number (str): Phone number associated with the account.
             email (str): Email address associated with the account.
@@ -86,15 +87,16 @@ class ServiceType(ServiceTypeUtils):
         tracking_reference: str,
         verification_type: int,
         face_image_url: str,
-        address: str | None = None,
-        id_type: int | None = None,
-        bvn: str | None = None,
-        nin: str | None = None,
+        address: Optional[str] = None,
+        id_type: Optional[int] = None, # Consider using an Enum for better readability.
+        bvn: Optional[str] = None,
+        nin: Optional[str] = None,
     ) -> PyKudaResponse:
         """
-        Create a virtual account.
-
+        Upgrades an existing virtual account.
+        
         Args:
+            tracking_reference (str): Tracking reference of the virtual account.
             verification_type (int): Type of verification. Example values:
                 - 1: BVN
                 - 2: NIN
@@ -108,7 +110,7 @@ class ServiceType(ServiceTypeUtils):
             address (str, optional): Client's Address
 
         Returns:
-            PyKudaResponse: Response object containing the result of the request.
+            PyKudaResponse: Response object containing the result of the upgrade request.
         """
         data = self._generate_common_data(
             ServiceTypeConstants.ADMIN_UPGRADE_VIRTUAL_ACCOUNT.value, tracking_reference
