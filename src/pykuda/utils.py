@@ -9,6 +9,11 @@ from pykuda.constants import KUDA_CREDENTIALS_KEYS
 def check_envs_are_set(credentials: dict | None) -> bool | str:
     """
     Checks if important environmental variables are set.
+        - "KUDA_KEY": API key for authentication.
+        - "TOKEN_URL": URL for generating tokens.
+        - "REQUEST_URL": URL for making API requests.
+        - "EMAIL": Email associated with the KUDA account.
+        - "MAIN_ACCOUNT_NUMBER": Main account number.
 
     Returns:
         A dictionary of credentials if all environmental variables are set,
@@ -69,6 +74,9 @@ class Utils:
     def _generate_headers(self) -> requests.models.Response | dict:
         """
         Generates headers for requests.
+            - "content-type": This is used to indicate the original media type of the resource
+            - "Authorization": This is used to provide credentials that authenticate a user agent with the server.
+
 
         Returns:
             A dictionary containing headers for API requests or a response object.
