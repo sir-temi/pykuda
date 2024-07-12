@@ -7,16 +7,16 @@ from pykuda.service_type_utils import ServiceTypeUtils
 
 class ServiceType(ServiceTypeUtils):
     """
-    This class handles all the Service functionalities, it
-    has methods that handle each type of transaction.
+    This class handles all Kuda API service functionalities, providing methods for each
+    type of transaction.
     """
 
     def banks_list(self) -> PyKudaResponse:
         """
-        Get the list of banks.
+        Retrieves a list of supported banks.
 
         Returns:
-            PyKudaResponse: Response object containing the result of the request.
+            PyKudaResponse:  A custom response object containing the list of banks.
         """
         data = self._generate_common_data(ServiceTypeConstants.BANK_LIST.value)
         return self._banks_list_request(data)
@@ -49,7 +49,7 @@ class ServiceType(ServiceTypeUtils):
                 - 3: Both BVN and NIN
             middle_name (str, optional): Middle name of the account holder. Defaults to None.
             business_name (str, optional): Business name if applicable. Defaults to None.
-            id_type (int, optional): Type of ID. Defaults to None. Example values:
+            id_type (int, optional): The type of ID used for verification, defaults to None. Example values:
                 - 1: NIN
                 - 2: Virtual NIN
             bvn (str, optional): Bank Verification Number (BVN). Defaults to None.
@@ -57,7 +57,8 @@ class ServiceType(ServiceTypeUtils):
             face_image_url (str, optional): URL of the face image. Defaults to None.
 
         Returns:
-            PyKudaResponse: Response object containing the result of the request.
+            PyKudaResponse: A custom response object containing details
+                            of the created virtual account.
         """
         data = self._generate_common_data(
             ServiceTypeConstants.ADMIN_CREATE_VIRTUAL_ACCOUNT.value
@@ -95,6 +96,7 @@ class ServiceType(ServiceTypeUtils):
         Create a virtual account.
 
         Args:
+            tracking_reference (str): Tracking reference of the virtual account.
             verification_type (int): Type of verification. Example values:
                 - 1: BVN
                 - 2: NIN
@@ -108,7 +110,7 @@ class ServiceType(ServiceTypeUtils):
             address (str, optional): Client's Address
 
         Returns:
-            PyKudaResponse: Response object containing the result of the request.
+            PyKudaResponse: Response object containing the result of the upgrade request.
         """
         data = self._generate_common_data(
             ServiceTypeConstants.ADMIN_UPGRADE_VIRTUAL_ACCOUNT.value, tracking_reference
@@ -128,13 +130,13 @@ class ServiceType(ServiceTypeUtils):
 
     def virtual_account_balance(self, tracking_reference: str) -> PyKudaResponse:
         """
-        Get the balance of a virtual account.
+        Retrieves the balance of a virtual account.
 
         Args:
             tracking_reference (str): Tracking reference of the virtual account.
 
         Returns:
-            PyKudaResponse: Response object containing the result of the request.
+            PyKudaResponse: Response object containing the virtual account balance.
         """
         data = self._generate_common_data(
             ServiceTypeConstants.RETRIEVE_VIRTUAL_ACCOUNT_BALANCE.value
@@ -144,10 +146,10 @@ class ServiceType(ServiceTypeUtils):
 
     def main_account_balance(self) -> PyKudaResponse:
         """
-        Get the account balance of the main account.
+        Retrieves the balance of the main account.
 
         Returns:
-            PyKudaResponse: Response object containing the result of the request.
+            PyKudaResponse: Response object containing the main account balance.
         """
         data = self._generate_common_data(
             ServiceTypeConstants.ADMIN_RETRIEVE_MAIN_ACCOUNT_BALANCE.value
@@ -158,15 +160,15 @@ class ServiceType(ServiceTypeUtils):
         self, tracking_reference: str, amount: str, narration: str
     ) -> PyKudaResponse:
         """
-        Withdraw money from the main account and deposit into a virtual account.
+        Funds a virtual account from the main account.
 
         Args:
             tracking_reference (str): Tracking reference of the virtual account.
-            amount (str): Amount to be funded.
+            amount (str): Amount to fund the virtual account with.
             narration (str): Description of the transaction.
 
         Returns:
-            PyKudaResponse: Response object containing the result of the request.
+            PyKudaResponse: Response object containing the result of the funding request.
         """
         data = self._generate_common_data(
             ServiceTypeConstants.FUND_VIRTUAL_ACCOUNT.value, tracking_reference
