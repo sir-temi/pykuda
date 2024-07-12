@@ -11,7 +11,7 @@ class ServiceType(ServiceTypeUtils):
     has methods that handle each type of transaction.
     """
 
-    def banks_list(self) -> PyKudaResponse:
+    def get_banks_list(self) -> PyKudaResponse:
         """
         Get the list of banks.
 
@@ -126,7 +126,7 @@ class ServiceType(ServiceTypeUtils):
 
         return self._create_virtual_account_request(data)
 
-    def virtual_account_balance(self, tracking_reference: str) -> PyKudaResponse:
+    def get_virtual_account_balance(self, tracking_reference: str) -> PyKudaResponse:
         """
         Get the balance of a virtual account.
 
@@ -142,7 +142,7 @@ class ServiceType(ServiceTypeUtils):
         data["Data"].update({"trackingReference": tracking_reference})
         return self._virtual_account_balance_request(data)
 
-    def main_account_balance(self) -> PyKudaResponse:
+    def get_main_account_balance(self) -> PyKudaResponse:
         """
         Get the account balance of the main account.
 
@@ -315,7 +315,7 @@ class ServiceType(ServiceTypeUtils):
         )
         return self._send_funds_from_virtual_account_request(data)
 
-    def billers(
+    def get_billers(
         self,
         biller_type: str,
     ) -> PyKudaResponse:
