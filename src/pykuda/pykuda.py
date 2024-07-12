@@ -26,7 +26,7 @@ class PyKuda(ServiceType):
                                        the environment variables.
 
         Raises:
-            ValueError: If the credentials are not properly set.
+            ValueError: If the environmental variables or credentials are not properly set.
         """
         response = check_envs_are_set(credentials)
 
