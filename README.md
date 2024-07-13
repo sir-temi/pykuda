@@ -20,6 +20,7 @@ Our package, PyKuda has some dependencies that will be installed (requests and p
 
 After installation, the next thing is to create a `.env` file where the environmental variables will be stored. Five variables are to be set in the `.env` file, shown in an example below.
 
+
 ```shell
 KUDA_KEY="Your Kuda Api Key"
 TOKEN_URL="https://kuda-openapi.kuda.com/v2.1/Account/GetToken" # Kuda API v2.1 GetToken URL
