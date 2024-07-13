@@ -145,7 +145,7 @@ class ServiceType(ServiceTypeUtils):
         data["Data"].update({"trackingReference": tracking_reference})
         return self._virtual_account_balance_request(data)
 
-    def main_account_balance(self) -> PyKudaResponse:
+    def get_main_account_balance(self) -> PyKudaResponse:
         """
         Retrieves the balance of the main account.
 
