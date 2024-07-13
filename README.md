@@ -2,7 +2,7 @@
 
 [![Downloads](https://static.pepy.tech/badge/pykuda)](https://pepy.tech/project/pykuda) [![Downloads](https://static.pepy.tech/badge/pykuda/month)](https://pepy.tech/project/pykuda) [![Downloads](https://static.pepy.tech/badge/pykuda/week)](https://pepy.tech/project/pykuda)
 
-A python package that simplifies using the Kuda Bank API. This python package makes it seamless and easy to enjoy the beautiful Kuda Bank pen Api. PyKuda uses Kuda's Api v2 which authenticates using an `API key` and a `token`.
+PyKuda is a Python package designed to streamline interactions with the Kuda Bank API, making it effortless to leverage the powerful features offered by Kuda Bank. This package utilizes Kuda's API v2, providing authentication through an `API key` and a `token`. With PyKuda, developers can seamlessly integrate Kuda's banking capabilities into their applications, ensuring secure and efficient financial transactions.
 
 ## Getting started
 
@@ -476,9 +476,9 @@ print(response.data)
 
 ## Contributions & Issues
 
--   If you would like to contribute and improve this package or its documentation, please feel free to fork the repository, make changes and open a pull request.
--   If you encounter any issue or bugs, please open an issue.
+- If you would like to contribute and improve this package or its documentation, please feel free to fork the repository, make changes and open a pull request.
+- If you encounter any issue or bugs, please open an issue.
 
 ## Author
 
--   [Kayode TemiTope](https://github.com/sir-temi)
+- [Kayode TemiTope](https://github.com/sir-temi)
