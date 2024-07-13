@@ -187,7 +187,7 @@ As shown in the [Successful request](#successful-request) section, it is recomme
 
 `PyKuda` can be used to make other requests also. Below are examples of how to use the other methods available in the `ServiceType` class.
 
-### Create Virtual Account
+### Create a Virtual Account
 
 ```python
 response = kuda.create_virtual_account(
@@ -234,7 +234,7 @@ print(response.data)
 # }
 ```
 
-### Fund Virtual Account
+### Fund a Virtual Account
 
 ```python
 response = kuda.fund_virtual_account(
@@ -246,7 +246,7 @@ print(response.data)
 # {"reference": "transactionReference"}
 ```
 
-### Withdraw from Virtual Account
+### Withdraw from a Virtual Account
 
 ```python
 response = kuda.withdraw_from_virtual_account(
@@ -301,7 +301,7 @@ print(response.data)
 # }
 ```
 
-### Send Funds from Virtual Account
+### Send Funds from a Virtual Account
 
 ```python
 response = kuda.send_funds_from_virtual_account(
@@ -322,7 +322,7 @@ print(response.data)
 # }
 ```
 
-### Get Billers
+### Retrieve List of Billers
 
 ```python
 response = kuda.billers(biller_type="electricity")
@@ -378,7 +378,7 @@ print(response.data)
 # }
 ```
 
-### Disable Virtual Account
+### Disable a Virtual Account
 
 ```python
 response = kuda.disable_virtual_account(
@@ -390,7 +390,7 @@ print(response.data)
 # }
 ```
 
-### Enable Virtual Account
+### Enable a Virtual Account
 
 ```python
 response = kuda.enable_virtual_account(
@@ -416,7 +416,7 @@ print(response.data)
 # }
 ```
 
-### Update Virtual Account Email
+### Update a Virtual Account Email
 
 ```python
 response = kuda.update_virtual_account_email(
@@ -429,7 +429,7 @@ print(response.data)
 # }
 ```
 
-### Retrieve Single Virtual Account
+### Retrieve a Virtual Account
 
 ```python
 response = kuda.retrieve_single_virtual_account(
