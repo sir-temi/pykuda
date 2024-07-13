@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 
-
 @dataclass
 class PyKudaResponse:
     """
+    A class to simplify and standardize the response from Kuda API.
     Helps simplify Kuda's response by encapsulating the response details in a structured format.
     
     Attributes:
@@ -11,7 +11,6 @@ class PyKudaResponse:
         data (dict): The response data from Kuda's API, usually in dictionary form.
         error (bool): A flag indicating whether the response indicates an error (default is False).
     """
-
     status_code: int
     data: dict
     error: bool = False
