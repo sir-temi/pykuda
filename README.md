@@ -1,8 +1,8 @@
-# PyKuda
+# PyKuda!
 
 [![Downloads](https://static.pepy.tech/badge/pykuda)](https://pepy.tech/project/pykuda) [![Downloads](https://static.pepy.tech/badge/pykuda/month)](https://pepy.tech/project/pykuda) [![Downloads](https://static.pepy.tech/badge/pykuda/week)](https://pepy.tech/project/pykuda)
 
-A python package that simplifies using the Kuda Bank API. This python package makes it seamless and easy to enjoy the beautiful Kuda Bank pen Api. PyKuda uses Kuda's Api v2 which authenticates using an `API key` and a `token`.
+PyKuda is a Python package designed to streamline interactions with the Kuda Bank API, making it effortless to leverage the powerful features offered by Kuda Bank. This package utilizes Kuda's API v2, providing authentication through an `API key` and a `token`. With PyKuda, developers can seamlessly integrate Kuda's banking capabilities into their applications, ensuring secure and efficient financial transactions.
 
 ## Getting started
 
@@ -14,7 +14,7 @@ To use this package, install it using the package manager [pip](https://pip.pypa
 pip install pykuda
 ```
 
-PyKuda has some dependencies which will be installed (requests and python-decouple). `requests` is used by PyKuda to make http requests to Kuda's endpoints, while the `python-decouple` is responsible for getting the environmental variables which has to be set for the requests to be authenticated; more to be discussed below.
+Our package, PyKuda has some dependencies which will be installed (requests and python-decouple). `requests` is used by PyKuda to make http requests to Kuda's endpoints, while the `python-decouple` is responsible for getting the environmental variables which has to be set for the requests to be authenticated; more to be discussed below.
 
 ### Create Environmental variables
 
@@ -75,7 +75,7 @@ print(response)
 
 ### Failed request
 
-In case the request wasn't successful, the PyKudaResponse will be different. The data will be a `Response` Object which you can check to investigate the cause (Maybe your Token is not correct, or the URL, or something else). Now, let's say the API Key in the `.env` file was not a correct one and a request was made, the example below shows the response to expect.
+In case the request isn't successful, the PyKudaResponse will be different. The data will be a `Response` Object which you can check to investigate the cause (Maybe your Token is not correct, or the URL, or something else). Now, let's say the API Key in the `.env` file was not the correct one, and a request was made, the example below shows the response to expect.
 
 ```python
 print(response)
@@ -187,7 +187,7 @@ As shown in the [Successful request](#successful-request) section, it is recomme
 
 `PyKuda` can be used to make other requests also. Below are examples of how to use the other methods available in the `ServiceType` class.
 
-### Create Virtual Account
+### Create a Virtual Account
 
 ```python
 response = kuda.create_virtual_account(
@@ -234,7 +234,7 @@ print(response.data)
 # }
 ```
 
-### Fund Virtual Account
+### Fund a Virtual Account
 
 ```python
 response = kuda.fund_virtual_account(
@@ -246,7 +246,7 @@ print(response.data)
 # {"reference": "transactionReference"}
 ```
 
-### Withdraw from Virtual Account
+### Withdraw from a Virtual Account
 
 ```python
 response = kuda.withdraw_from_virtual_account(
@@ -301,7 +301,7 @@ print(response.data)
 # }
 ```
 
-### Send Funds from Virtual Account
+### Send Funds from a Virtual Account
 
 ```python
 response = kuda.send_funds_from_virtual_account(
@@ -322,7 +322,7 @@ print(response.data)
 # }
 ```
 
-### Get Billers
+### Retrieve List of Billers
 
 ```python
 response = kuda.billers(biller_type="electricity")
@@ -378,7 +378,7 @@ print(response.data)
 # }
 ```
 
-### Disable Virtual Account
+### Disable a Virtual Account
 
 ```python
 response = kuda.disable_virtual_account(
@@ -390,7 +390,7 @@ print(response.data)
 # }
 ```
 
-### Enable Virtual Account
+### Enable a Virtual Account
 
 ```python
 response = kuda.enable_virtual_account(
@@ -416,7 +416,7 @@ print(response.data)
 # }
 ```
 
-### Update Virtual Account Email
+### Update a Virtual Account Email
 
 ```python
 response = kuda.update_virtual_account_email(
@@ -429,7 +429,7 @@ print(response.data)
 # }
 ```
 
-### Retrieve Single Virtual Account
+### Retrieve a Virtual Account
 
 ```python
 response = kuda.retrieve_single_virtual_account(
@@ -476,9 +476,9 @@ print(response.data)
 
 ## Contributions & Issues
 
--   If you would like to contribute and improve this package or its documentation, please feel free to fork the repository, make changes and open a pull request.
--   If you encounter any issue or bugs, please open an issue.
+- If you would like to contribute and improve this package or its documentation, please feel free to fork the repository, make changes and open a pull request.
+- If you encounter any issue or bugs, please open an issue.
 
 ## Author
 
--   [Kayode TemiTope](https://github.com/sir-temi)
+- [Kayode TemiTope](https://github.com/sir-temi)
