@@ -13,12 +13,12 @@ To use this package, install it using the package manager [pip](https://pip.pypa
 ```bash
 pip install pykuda
 ```
-
 PyKuda has some dependencies which will be installed (requests and python-decouple). `requests` is used by PyKuda to make http requests to Kuda's endpoints, while the `python-decouple` is responsible for getting the environmental variables which has to be set for the requests to be authenticated; more to be discussed below.
 
 ### Create Environmental variables
 
-After installation, the next thing is to create a `.env` file where the environmental variables will be stored. Five variables are to be set in the `.env` file, and they are shown in an example below.
+
+After installing, the next step is to create a .env file to store the environment variables. You need to set five variables in the .env file, as demonstrated in the example below.
 
 ```shell
 KUDA_KEY="Your Kuda Api Key"
